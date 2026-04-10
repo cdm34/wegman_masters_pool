@@ -38,7 +38,7 @@ function saveSettings() {
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
   localStorage.removeItem(CACHE_KEY); // clear cache on settings change
   closeSettings();
-  fetchLiveData();
+  fetchLiveData(true);
 }
 
 function openSettings() {
