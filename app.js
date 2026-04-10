@@ -269,10 +269,10 @@ function buildPlayerMap(data) {
     window._apiShapeLogged = true;
   }
 
-  const crRaw = data.currentRound ?? data.current_round ?? "1";
-  const crNum = parseInt(extractVal(crRaw), 10);
-
   for (const row of data.leaderboardRows) {
+    const crRaw = row.currentRound ?? row.current_round ?? data.currentRound ?? data.current_round ?? "1";
+    const crNum = parseInt(extractVal(crRaw), 10) || 1;
+
     // Use accent-normalized key so "Aberg" matches "Åberg", etc.
     const key = normalizeNameKey(extractVal(row.firstName), extractVal(row.lastName));
 
