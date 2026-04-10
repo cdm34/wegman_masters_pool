@@ -20,6 +20,7 @@ const ROUND_NAMES = { 1: "Thursday", 2: "Friday", 3: "Saturday", 4: "Sunday" };
 let leaderboardData = null;
 let currentRound = 1;
 let activeTab = null; // will be set to currentRound after first load
+let lastApiUpdateMs = null; // tracks actual API ping time
 
 // ─── Settings ─────────────────────────────────────────────────────────────────
 function getSettings() {
@@ -65,8 +66,8 @@ function getCachedData() {
   try {
     const raw = localStorage.getItem(CACHE_KEY);
     if (!raw) return null;
-    const { data, timestamp } = JSON.parse(raw);
-    if (Date.now() - timestamp < CACHE_TTL_MS) return data;
+    const cache = JSON.parse(raw);
+    if (Date.now() - cache.timestamp < CACHE_TTL_MS) return cache;
   } catch { }
   return null;
 }
@@ -87,7 +88,7 @@ async function fetchLiveData(forceRefresh = false) {
       const fbData = await window.loadFromFirebase();
       if (fbData && fbData.payload) {
         leaderboardData = fbData.payload;
-        setStatus("Loaded from pool cache", "ok");
+        setStatus("Loaded from pool cache", "ok", fbData.timestamp);
         renderAll();
         btn.classList.remove("spinning");
         return;
@@ -97,8 +98,8 @@ async function fetchLiveData(forceRefresh = false) {
     // 2. Fall back to local device cache
     const cached = getCachedData();
     if (cached) {
-      leaderboardData = cached;
-      setStatus("Loaded from local cache (≤10 min old)", "ok");
+      leaderboardData = cached.data;
+      setStatus("Loaded from local cache (≤10 min old)", "ok", cached.timestamp);
       renderAll();
       btn.classList.remove("spinning");
       return;
@@ -133,17 +134,20 @@ async function fetchLiveData(forceRefresh = false) {
       await window.saveToFirebase(data);
     }
 
-    setStatus("Live data loaded successfully", "ok");
+    setStatus("Live data loaded successfully", "ok", Date.now());
     renderAll();
   } catch (err) {
     console.error("Fetch error:", err);
-    setStatus(`Error: ${err.message}`, "error");
     showToast(`Failed to fetch: ${err.message}`, "error");
     const stale = localStorage.getItem(CACHE_KEY);
     if (stale) {
-      leaderboardData = JSON.parse(stale).data;
+      const cache = JSON.parse(stale);
+      leaderboardData = cache.data;
       renderAll();
       showToast("Showing cached data", "warn");
+      setStatus(`Error: ${err.message}`, "error", cache.timestamp);
+    } else {
+      setStatus(`Error: ${err.message}`, "error");
     }
   } finally {
     btn.classList.remove("spinning");
@@ -151,11 +155,19 @@ async function fetchLiveData(forceRefresh = false) {
 }
 
 // ─── Status Bar ───────────────────────────────────────────────────────────────
-function setStatus(text, state) {
+function setStatus(text, state, timestamp = null) {
   document.getElementById("status-text").textContent = text;
   document.getElementById("status-dot").className = `status-dot ${state}`;
-  const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  document.getElementById("status-time").textContent = `Last updated: ${now}`;
+  if (timestamp) {
+    lastApiUpdateMs = timestamp;
+  }
+  if (lastApiUpdateMs) {
+    const d = new Date(lastApiUpdateMs);
+    const timeStr = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    document.getElementById("status-time").textContent = `Last updated: ${timeStr}`;
+  } else {
+    document.getElementById("status-time").textContent = "Last updated: --";
+  }
 }
 
 // ─── Score Helpers ─────────────────────────────────────────────────────────
