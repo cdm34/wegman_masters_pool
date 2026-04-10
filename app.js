@@ -268,19 +268,8 @@ function buildPlayerMap(data) {
     console.log('[Masters Pool] Top-level keys:', Object.keys(data));
     window._apiShapeLogged = true;
   }
-  // RapidAPI often omits currentRound from the root, so we deduce it by finding the highest active round across all golfers
-  let globalCrNum = parseInt(extractVal(data.currentRound ?? data.current_round), 10) || 1;
-  for (const r of data.leaderboardRows) {
-    const pRaw = r.currentRound ?? r.current_round;
-    if (pRaw !== undefined) {
-      const pRnd = parseInt(extractVal(pRaw), 10);
-      if (!isNaN(pRnd) && pRnd > globalCrNum) globalCrNum = pRnd;
-    }
-  }
-
-  for (const row of data.leaderboardRows) {
     // We forcefully use the tournament's active round for today's live score mapping!
-    const crNum = globalCrNum;
+    const crNum = currentRound;
 
     // Use accent-normalized key so "Aberg" matches "Åberg", etc.
     const key = normalizeNameKey(extractVal(row.firstName), extractVal(row.lastName));
@@ -481,7 +470,25 @@ function switchTab(tabKey) {
 function renderAll() {
   if (!leaderboardData) { renderDemoMode(); return; }
 
-  currentRound = parseInt(leaderboardData.currentRound ?? "1", 10);
+  // Detect current round from API metadata, golfer rows, and as a date-based fallback
+  let detectedRound = parseInt(extractVal(leaderboardData.currentRound ?? leaderboardData.current_round), 10) || 1;
+  if (leaderboardData.leaderboardRows) {
+    for (const r of leaderboardData.leaderboardRows) {
+      const pRnd = parseInt(extractVal(r.currentRound ?? r.current_round), 10);
+      if (!isNaN(pRnd) && pRnd > detectedRound) detectedRound = pRnd;
+    }
+  }
+
+  // Date-based fallback for Masters 2026 (April 9-12)
+  const now = new Date();
+  if (now.getFullYear() === 2026 && now.getMonth() === 3) { // 3 = April
+    const day = now.getDate();
+    if (day === 10 && detectedRound < 2) detectedRound = 2; // Fri
+    if (day === 11 && detectedRound < 3) detectedRound = 3; // Sat
+    if (day === 12 && detectedRound < 4) detectedRound = 4; // Sun
+  }
+  
+  currentRound = detectedRound;
   document.getElementById("current-round").textContent = currentRound;
 
   const playerMap = buildPlayerMap(leaderboardData);
