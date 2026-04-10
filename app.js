@@ -268,6 +268,7 @@ function buildPlayerMap(data) {
     console.log('[Masters Pool] Top-level keys:', Object.keys(data));
     window._apiShapeLogged = true;
   }
+  for (const row of data.leaderboardRows) {
     // We forcefully use the tournament's active round for today's live score mapping!
     const crNum = currentRound;
 
