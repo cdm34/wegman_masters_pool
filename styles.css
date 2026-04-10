@@ -846,6 +846,7 @@ input:checked + .slider:before {
 .btn-star {
   background: none;
   border: none;
+  color: var(--white-dim);
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.4rem;
@@ -861,6 +862,7 @@ input:checked + .slider:before {
 }
 
 .btn-star.active {
+  color: var(--gold-light);
   filter: grayscale(0) opacity(1);
   text-shadow: 0 0 8px rgba(200, 169, 81, 0.6);
 }
