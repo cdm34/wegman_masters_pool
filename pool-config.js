@@ -53,7 +53,7 @@ const POOL_PARTICIPANTS = [
     name: "Barp, Eric",
     // Alternate (use if a pick WDs): Viktor Hovland
     picks: [
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Xander", lastName: "Schauffele" },
       { firstName: "Ludvig", lastName: "Aberg" },
       { firstName: "Robert", lastName: "MacIntyre" },
@@ -89,7 +89,7 @@ const POOL_PARTICIPANTS = [
     name: "Beecher, Bryce",
     // Alternate (use if a pick WDs): Corey Conners
     picks: [
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Justin", lastName: "Rose" },
       { firstName: "Ludvig", lastName: "Aberg" },
       { firstName: "Justin", lastName: "Thomas" },
@@ -114,7 +114,7 @@ const POOL_PARTICIPANTS = [
     // Alternate (use if a pick WDs): Viktor Hovland
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Ludvig", lastName: "Aberg" },
       { firstName: "Min Woo", lastName: "Lee" },
       { firstName: "Patrick", lastName: "Reed" },
@@ -150,7 +150,7 @@ const POOL_PARTICIPANTS = [
     // Alternate (use if a pick WDs): Jason Day
     picks: [
       { firstName: "Rory", lastName: "McIlroy" },
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Sepp", lastName: "Straka" },
       { firstName: "Min Woo", lastName: "Lee" },
       { firstName: "Jake", lastName: "Knapp" },
@@ -233,7 +233,7 @@ const POOL_PARTICIPANTS = [
     name: "Coleman, Eric",
     // Alternate (use if a pick WDs): Akshay Bhatia
     picks: [
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Xander", lastName: "Schauffele" },
       { firstName: "Ludvig", lastName: "Aberg" },
       { firstName: "Robert", lastName: "MacIntyre" },
@@ -329,7 +329,7 @@ const POOL_PARTICIPANTS = [
     name: "Grimm, Kevin",
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Bryson", lastName: "DeChambeau" },
       { firstName: "Ludvig", lastName: "Aberg" },
       { firstName: "Robert", lastName: "MacIntyre" },
@@ -341,7 +341,7 @@ const POOL_PARTICIPANTS = [
     name: "Hancock, Shawn",
     // Alternate (use if a pick WDs): Shane Lowry
     picks: [
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Bryson", lastName: "DeChambeau" },
       { firstName: "Robert", lastName: "MacIntyre" },
       { firstName: "Patrick", lastName: "Reed" },
@@ -353,7 +353,7 @@ const POOL_PARTICIPANTS = [
     name: "Hartlieb, Chuck #1",
     // Alternate (use if a pick WDs): Dustin Johnson
     picks: [
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Matt", lastName: "Fitzpatrick" },
       { firstName: "Ludvig", lastName: "Aberg" },
       { firstName: "J.J.", lastName: "Spaun" },
@@ -389,7 +389,7 @@ const POOL_PARTICIPANTS = [
     name: "Hartlieb, Dan #2",
     // Alternate (use if a pick WDs): Dustin Johnson
     picks: [
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Xander", lastName: "Schauffele" },
       { firstName: "Jordan", lastName: "Spieth" },
       { firstName: "Patrick", lastName: "Reed" },
@@ -486,7 +486,7 @@ const POOL_PARTICIPANTS = [
     // Alternate (use if a pick WDs): Patrick Reed
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Ludvig", lastName: "Aberg" },
       { firstName: "Robert", lastName: "MacIntyre" },
       { firstName: "Hideki", lastName: "Matsuyama" },
@@ -605,7 +605,7 @@ const POOL_PARTICIPANTS = [
     name: "Moulton, Cade",
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Tommy", lastName: "Fleetwood" },
       { firstName: "Ben", lastName: "Griffin" },
       { firstName: "Hideki", lastName: "Matsuyama" },
@@ -762,7 +762,7 @@ const POOL_PARTICIPANTS = [
     // Alternate (use if a pick WDs): J.J. Spaun
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Min Woo", lastName: "Lee" },
       { firstName: "Hideki", lastName: "Matsuyama" },
       { firstName: "Ludvig", lastName: "Aberg" },
@@ -822,7 +822,7 @@ const POOL_PARTICIPANTS = [
     // Alternate (use if a pick WDs): Shane Lowry
     picks: [
       { firstName: "Chris", lastName: "Gotterup" },
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Sungjae", lastName: "Im" },
       { firstName: "Ludvig", lastName: "Aberg" },
       { firstName: "Robert", lastName: "MacIntyre" },
@@ -1002,7 +1002,7 @@ const POOL_PARTICIPANTS = [
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Sepp", lastName: "Straka" },
       { firstName: "Si Woo", lastName: "Kim" },
       { firstName: "Viktor", lastName: "Hovland" },
@@ -1061,7 +1061,7 @@ const POOL_PARTICIPANTS = [
     name: "Weresh, Matt",
     // Alternate (use if a pick WDs): Gary Woodland
     picks: [
-      { firstName: "Cam", lastName: "Young" },
+      { firstName: "Cameron", lastName: "Young" },
       { firstName: "Bryson", lastName: "DeChambeau" },
       { firstName: "Ludvig", lastName: "Aberg" },
       { firstName: "Harris", lastName: "English" },

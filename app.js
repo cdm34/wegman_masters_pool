@@ -172,11 +172,13 @@ function normalizeNameKey(firstName, lastName) {
     .replace(/ø/gi, "o")                 // specifically replace the Danish ø (which does not decompose)
     .toLowerCase()
     .trim();
-    
+
   // Handle common nicknames vs official API names
-  if (norm.includes("niemann")) return "joaquin niemann"; // catch API misspellings or accents
+  if (norm.includes("niemann") || norm.includes("nieman") || norm.includes("joaquin") || norm.includes("joauqin") || norm.includes("neiman") || norm.includes("niemen")) return "joaquin niemann";
   if (norm === "cameron young") return "cam young";
   if (norm === "matthew fitzpatrick") return "matt fitzpatrick";
+  if (norm === "partick cantlay") return "patrick cantlay";
+  if (norm === "partrick reed") return "patrick reed";
   
   return norm;
 }
