@@ -268,10 +268,19 @@ function buildPlayerMap(data) {
     console.log('[Masters Pool] Top-level keys:', Object.keys(data));
     window._apiShapeLogged = true;
   }
+  // RapidAPI often omits currentRound from the root, so we deduce it by finding the highest active round across all golfers
+  let globalCrNum = parseInt(extractVal(data.currentRound ?? data.current_round), 10) || 1;
+  for (const r of data.leaderboardRows) {
+    const pRaw = r.currentRound ?? r.current_round;
+    if (pRaw !== undefined) {
+      const pRnd = parseInt(extractVal(pRaw), 10);
+      if (!isNaN(pRnd) && pRnd > globalCrNum) globalCrNum = pRnd;
+    }
+  }
 
   for (const row of data.leaderboardRows) {
-    const crRaw = row.currentRound ?? row.current_round ?? data.currentRound ?? data.current_round ?? "1";
-    const crNum = parseInt(extractVal(crRaw), 10) || 1;
+    // We forcefully use the tournament's active round for today's live score mapping!
+    const crNum = globalCrNum;
 
     // Use accent-normalized key so "Aberg" matches "Åberg", etc.
     const key = normalizeNameKey(extractVal(row.firstName), extractVal(row.lastName));
