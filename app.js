@@ -174,6 +174,7 @@ function normalizeNameKey(firstName, lastName) {
     .trim();
     
   // Handle common nicknames vs official API names
+  if (norm.includes("niemann")) return "joaquin niemann"; // catch API misspellings or accents
   if (norm === "cameron young") return "cam young";
   if (norm === "matthew fitzpatrick") return "matt fitzpatrick";
   
