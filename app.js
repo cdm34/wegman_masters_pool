@@ -79,7 +79,7 @@ function setCachedData(data) {
 // ─── API Fetch ────────────────────────────────────────────────────────────────
 async function fetchLiveData(forceRefresh = false) {
   const btn = document.getElementById("refresh-btn");
-  btn.classList.add("spinning");
+  if (btn) btn.classList.add("spinning");
   setStatus("Fetching live scores…", "loading");
 
   if (!forceRefresh) {
@@ -90,7 +90,7 @@ async function fetchLiveData(forceRefresh = false) {
         leaderboardData = fbData.payload;
         setStatus("Loaded from pool cache", "ok", fbData.timestamp);
         renderAll();
-        btn.classList.remove("spinning");
+        if (btn) btn.classList.remove("spinning");
         return;
       }
     }
@@ -101,7 +101,7 @@ async function fetchLiveData(forceRefresh = false) {
       leaderboardData = cached.data;
       setStatus("Loaded from local cache (≤10 min old)", "ok", cached.timestamp);
       renderAll();
-      btn.classList.remove("spinning");
+      if (btn) btn.classList.remove("spinning");
       return;
     }
   }
@@ -109,7 +109,7 @@ async function fetchLiveData(forceRefresh = false) {
   const settings = getSettings();
   if (!settings.apiKey) {
     setStatus("⚠ No API key set — click ⚙ Settings to add yours", "warn");
-    btn.classList.remove("spinning");
+    if (btn) btn.classList.remove("spinning");
     renderDemoMode();
     return;
   }
@@ -150,7 +150,7 @@ async function fetchLiveData(forceRefresh = false) {
       setStatus(`Error: ${err.message}`, "error");
     }
   } finally {
-    btn.classList.remove("spinning");
+    if (btn) btn.classList.remove("spinning");
   }
 }
 
