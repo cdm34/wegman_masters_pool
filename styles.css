@@ -547,12 +547,29 @@ a { color: var(--gold-light); }
   text-decoration: line-through;
 }
 
-.cell-pos { color: var(--white-dim); font-size: 0.78rem; }
-.cell-name { font-weight: 600; }
-.cell-owner { font-size: 0.78rem; color: var(--gold); }
-.cell-score, .cell-today { font-weight: 700; }
-.cell-thru { color: var(--white-dim); font-size: 0.78rem; }
-.cell-round { color: var(--white-dim); font-size: 0.8rem; }
+.cell-pos { color: var(--white-dim); font-size: 0.78rem; text-align: center; }
+.cell-name { font-weight: 600; text-wrap: nowrap; }
+
+.cell-owner { 
+  font-size: 0.78rem; 
+  color: var(--gold);
+  /* Use gap to space pills if there are multiple */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem; 
+  align-items: center;
+}
+.owner-pill {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.cell-score, .cell-today { font-weight: 700; text-align: center; }
+.cell-thru { color: var(--white-dim); font-size: 0.78rem; text-align: center; }
+.cell-round { color: var(--white-dim); font-size: 0.8rem; text-align: center; }
 
 .loading-row {
   text-align: center;

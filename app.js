@@ -298,6 +298,24 @@ function buildPlayerMap(data) {
   return map;
 }
 
+/**
+ * Converts "Last, First" into "First Last". 
+ * Preserves trailing identifiers like "#1" or "(Papa 1)" correctly.
+ */
+function formatOwnerName(rawName) {
+  if (!rawName.includes(",")) return rawName;
+  const parts = rawName.split(",");
+  const lastName = parts[0].trim();
+  const firstPart = parts[1].trim(); 
+  
+  // Extract trailing tags like #1, #2, or (Papa 1) from first name if present
+  const match = firstPart.match(/^(.*?)\s+(#\d+|\(.*\))$/);
+  if (match) {
+    return `${match[1]} ${lastName} ${match[2]}`;
+  }
+  return `${firstPart} ${lastName}`;
+}
+
 // ─── Pool Standings Calculation ───────────────────────────────────────────────
 /**
  * For a given round number (1-4) or 'tourn' (overall):
@@ -347,7 +365,7 @@ function calculateStandings(playerMap, roundKey) {
       : null;
 
     return {
-      name: participant.name,
+      name: formatOwnerName(participant.name),
       picks: picksData,
       combinedScore,
       best2Picks: best2,
@@ -500,8 +518,9 @@ function renderLeaderboard(playerMap) {
       if (!pickOwnerMap[key]) pickOwnerMap[key] = [];
       // Store the display name (with accents) for the first occurrence
       if (!pickDisplayName[key]) pickDisplayName[key] = `${pick.firstName} ${pick.lastName}`;
-      if (!pickOwnerMap[key].includes(participant.name)) {
-        pickOwnerMap[key].push(participant.name);
+      const fmtName = formatOwnerName(participant.name);
+      if (!pickOwnerMap[key].includes(fmtName)) {
+        pickOwnerMap[key].push(fmtName);
       }
     }
   }
@@ -522,10 +541,13 @@ function renderLeaderboard(playerMap) {
 
     const r = player?.rounds ?? { 1: null, 2: null, 3: null, 4: null };
 
+    // Format owners into nice little readable chips or just a bulleted list so commas don't clash with Last, First names
+    const ownerHtml = owners.map(o => `<span class="owner-pill">${o}</span>`).join(" ");
+
     tr.innerHTML = `
       <td class="cell-pos">${player ? (player.position || "--") : "✕"}</td>
       <td class="cell-name">${display}</td>
-      <td class="cell-owner">${owners.join(", ")}</td>
+      <td class="cell-owner">${ownerHtml}</td>
       <td class="cell-score ${scoreClass(player?.total)}">${fmtScore(player?.total)}</td>
       <td class="cell-today ${scoreClass(player?.today)}">${fmtScore(player?.today)}</td>
       <td class="cell-thru">${player?.thru ?? "--"}</td>
