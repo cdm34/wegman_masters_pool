@@ -166,12 +166,18 @@ function setStatus(text, state) {
  */
 function normalizeNameKey(firstName, lastName) {
   const raw = `${firstName} ${lastName}`;
-  return raw
+  let norm = raw
     .normalize("NFD")                    // decompose accented chars (e.g. Å → A + combining ring)
     .replace(/[\u0300-\u036f]/g, "")     // strip the combining marks
     .replace(/ø/gi, "o")                 // specifically replace the Danish ø (which does not decompose)
     .toLowerCase()
     .trim();
+    
+  // Handle common nicknames vs official API names
+  if (norm === "cameron young") return "cam young";
+  if (norm === "matthew fitzpatrick") return "matt fitzpatrick";
+  
+  return norm;
 }
 /**
  * Parse raw API score string → number or null.
