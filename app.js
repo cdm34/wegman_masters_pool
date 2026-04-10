@@ -22,6 +22,49 @@ let currentRound = 1;
 let activeTab = null; // will be set to currentRound after first load
 let lastApiUpdateMs = null; // tracks actual API ping time
 
+// ─── Featured Teams ──────────────────────────────────────────────────────────
+const FEATURED_KEY = "masters_pool_featured_teams";
+const TOGGLE_KEY = "masters_pool_show_featured";
+const DEFAULT_FEATURED_TEAMS = ["Adam, Colin", "Wegman, Brett", "Corell, Charlie", "Riggs, Ryan"];
+
+let featuredTeams = new Set();
+let showFeaturedOnly = false;
+
+function initFeatured() {
+  const savedTeams = localStorage.getItem(FEATURED_KEY);
+  if (savedTeams) {
+    featuredTeams = new Set(JSON.parse(savedTeams));
+  } else {
+    // First run or cleared cache: use defaults
+    featuredTeams = new Set(DEFAULT_FEATURED_TEAMS);
+    localStorage.setItem(FEATURED_KEY, JSON.stringify([...featuredTeams]));
+  }
+
+  const savedToggle = localStorage.getItem(TOGGLE_KEY);
+  showFeaturedOnly = savedToggle === "true";
+  
+  // Update checkbox state if element exists
+  const toggle = document.getElementById("featured-toggle");
+  if (toggle) toggle.checked = showFeaturedOnly;
+}
+
+function toggleFeatured(name) {
+  if (featuredTeams.has(name)) {
+    featuredTeams.delete(name);
+  } else {
+    featuredTeams.add(name);
+  }
+  localStorage.setItem(FEATURED_KEY, JSON.stringify([...featuredTeams]));
+  renderAll();
+}
+
+function toggleShowFeaturedOnly() {
+  const toggle = document.getElementById("featured-toggle");
+  showFeaturedOnly = toggle ? toggle.checked : !showFeaturedOnly;
+  localStorage.setItem(TOGGLE_KEY, showFeaturedOnly);
+  renderAll();
+}
+
 // ─── Settings ─────────────────────────────────────────────────────────────────
 function getSettings() {
   const saved = localStorage.getItem(SETTINGS_KEY);
@@ -409,8 +452,9 @@ function calculateStandings(playerMap, roundKey) {
       ? best2.reduce((sum, p) => sum + p.roundScore, 0)
       : null;
 
-    return {
+      return {
       name: formatOwnerName(participant.name),
+      rawName: participant.name, // Keep the original comma-separated name for ID purposes
       note: participant.note || null,
       picks: picksData,
       combinedScore,
@@ -522,17 +566,26 @@ function renderTabPanel(playerMap, tabKey) {
   const standings = calculateStandings(playerMap, tabKey);
   const isTourn = tabKey === "tourn";
   const roundNum = isTourn ? null : parseInt(tabKey, 10);
-
-  const label = isTourn
-    ? "Tournament Total"
-    : `Round ${roundNum} · ${ROUND_NAMES[roundNum]}`;
-
   const isLive = !isTourn && roundNum === currentRound;
 
-  let html = `<div class="standings-grid">`;
+  let filteredStandings = standings;
+  if (showFeaturedOnly) {
+    filteredStandings = standings.filter(p => featuredTeams.has(p.rawName));
+  }
 
-  standings.forEach((participant) => {
+  let html = `<div class="standings-grid${showFeaturedOnly ? " filtered" : ""}">`;
+
+  if (filteredStandings.length === 0 && showFeaturedOnly) {
+    html += `
+      <div class="loading-card">
+        <p>No featured teams selected.</p>
+        <button class="btn-primary" onclick="toggleShowFeaturedOnly(); document.getElementById('featured-toggle').checked=false;">Show All Teams</button>
+      </div>`;
+  }
+
+  filteredStandings.forEach((participant) => {
     const isLeader = participant.isLeader;
+    const isFeatured = featuredTeams.has(participant.rawName);
     
     let medal;
     if (participant.rankString === "1") medal = "🥇";
@@ -550,8 +603,11 @@ function renderTabPanel(playerMap, tabKey) {
       .join(" + ") || "";
 
     html += `
-      <div class="standing-card${isLeader ? " leader" : ""}" id="sc-${participant.name.replace(/\W/g, "-")}">
+      <div class="standing-card${isLeader ? " leader" : ""}${isFeatured ? " featured" : ""}" id="sc-${participant.name.replace(/\W/g, "-")}">
         <div class="card-header">
+          <button class="btn-star${isFeatured ? " active" : ""}" onclick="toggleFeatured('${participant.rawName.replace(/'/g, "\\'")}')" title="Toggle Featured">
+            ${isFeatured ? "★" : "☆"}
+          </button>
           <span class="rank-badge">${medal}</span>
           <div class="participant-info">
             <span class="participant-name">${participant.name}</span>
@@ -719,5 +775,6 @@ window.addEventListener("DOMContentLoaded", () => {
       if (data?._year && data._year !== settings.year) localStorage.removeItem(CACHE_KEY);
     } catch { }
   }
+    initFeatured();
   fetchLiveData();
 });

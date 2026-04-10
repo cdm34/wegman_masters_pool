@@ -51,8 +51,15 @@
 
     <!-- Pool Standings Section with Round Tabs -->
     <section class="section" id="standings-section">
-      <div class="section-header">
+      <div class="section-header standings-header">
         <h2 class="section-title">Pool Standings</h2>
+        <div class="featured-toggle-wrap">
+          <span class="toggle-label">Show Featured Only</span>
+          <label class="switch">
+            <input type="checkbox" id="featured-toggle" onchange="toggleShowFeaturedOnly()">
+            <span class="slider round"></span>
+          </label>
+        </div>
       </div>
 
       <!-- Tab Bar -->
