@@ -299,18 +299,39 @@ function buildPlayerMap(data) {
 
     // ── 2. Try multiple field names for today's (current-round) score ──
     const todayRaw = row.currentRoundScore ?? row.today ?? row.todayScore ?? row.today_score ?? row.currentScore ?? null;
-    const todayVal = parseScore(todayRaw);
+    const todayVal = toRelPar(parseScore(todayRaw));
     if (todayVal !== null) {
       rounds[crNum] = todayVal;
     }
 
     // ── 3. Fallback: if current round still null, derive from total ──
-    //    In Round 1: total === R1 score (no prior rounds to subtract)
-    //    In later rounds: total is cumulative, so this is imprecise but
-    //    better than showing nothing when today is unavailable
+    //    In Round 1: total === R1 score
+    //    In later rounds: today = total - sum(prior rounds)
     if (rounds[crNum] === null) {
       const totalVal = toRelPar(parseScore(row.total));
-      if (totalVal !== null) rounds[crNum] = totalVal;
+      if (totalVal !== null) {
+        if (crNum === 1) {
+          rounds[crNum] = totalVal;
+        } else {
+          // Derive today's score by subtracting completed prior rounds from total
+          let priorSum = 0;
+          let canDerive = true;
+          for (let i = 1; i < crNum; i++) {
+            if (rounds[i] === null) {
+              canDerive = false;
+              break;
+            }
+            priorSum += rounds[i];
+          }
+          if (canDerive) {
+            rounds[crNum] = totalVal - priorSum;
+          } else {
+            // If someone is active but we can't derive, default to Even (0) 
+            // instead of showing a cumulative total as a daily score.
+            rounds[crNum] = 0;
+          }
+        }
+      }
     }
 
     // ── 4. Derive older completed round scores from totals if still missing ──
