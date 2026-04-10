@@ -171,14 +171,13 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Brosnahan, William",
-    note: "Joaquin Niemann WD (Alternate Max Homa used)",
     // Alternate (use if a pick WDs): Max Homa
     picks: [
       { firstName: "Rory", lastName: "McIlroy" },
       { firstName: "Bryson", lastName: "DeChambeau" },
       { firstName: "Min Woo", lastName: "Lee" },
       { firstName: "Ludvig", lastName: "Aberg" },
-      { firstName: "Joaquin", lastName: "Niemann" },
+      { firstName: "Max", lastName: "Homa" },
       { firstName: "Hideki", lastName: "Matsuyama" },
     ],
   },
