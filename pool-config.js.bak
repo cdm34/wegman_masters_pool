@@ -1,0 +1,44 @@
+/**
+ * pool-config.js
+ * =====================================================
+ * Edit THIS FILE to set up your pool participants and
+ * their golfer picks. No other files need changing.
+ * =====================================================
+ */
+
+// ----------------------------------------------------
+// POOL PARTICIPANTS
+// Each participant has a name and exactly 6 golfer picks.
+// Golfer names must match the firstName + lastName exactly
+// as they appear on the PGA Tour / RapidAPI leaderboard.
+// ----------------------------------------------------
+const POOL_PARTICIPANTS = [
+
+];
+
+// ----------------------------------------------------
+// SCORING RULES
+// Each day we award the participant whose 2-of-6 golfers
+// have the LOWEST combined score for that specific day.
+// "Best 2" means the two lowest individual daily scores.
+// ----------------------------------------------------
+const SCORING_CONFIG = {
+  dailyPicksScored: 2,       // Number of best daily scores to add together
+  totalPicksPerPerson: 6,    // Total picks each person has
+};
+
+// ----------------------------------------------------
+// COURSE PAR — used to convert raw round stroke totals
+// into relative-to-par scores for completed rounds.
+// Augusta National is par 72.
+// ----------------------------------------------------
+const COURSE_PAR = 72;
+
+// ----------------------------------------------------
+// API CONFIG (can also be set in Settings modal at runtime)
+// ----------------------------------------------------
+const DEFAULT_API_CONFIG = {
+  tournId: "014",     // Masters is typically 014 — verify via /schedule
+  year: "2025",
+  orgId: "1",         // 1 = PGA Tour
+};
