@@ -169,6 +169,7 @@ function normalizeNameKey(firstName, lastName) {
   return raw
     .normalize("NFD")                    // decompose accented chars (e.g. Å → A + combining ring)
     .replace(/[\u0300-\u036f]/g, "")     // strip the combining marks
+    .replace(/ø/gi, "o")                 // specifically replace the Danish ø (which does not decompose)
     .toLowerCase()
     .trim();
 }
