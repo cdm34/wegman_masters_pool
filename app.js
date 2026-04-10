@@ -194,14 +194,25 @@ function normalizeNameKey(firstName, lastName) {
   
   return norm;
 }
+/** Unwrap MongoDB extended JSON values if present */
+function extractVal(v) {
+  if (v && typeof v === "object") {
+    if (v.$numberInt !== undefined) return v.$numberInt;
+    if (v.$numberLong !== undefined) return v.$numberLong;
+    if (v.$numberDouble !== undefined) return v.$numberDouble;
+  }
+  return v;
+}
+
 /**
  * Parse raw API score string → number or null.
  * API gives us either strokes (e.g. "68") or relative-to-par (e.g. "-4", "E", "+2").
  */
 function parseScore(str) {
-  if (str === undefined || str === null || str === "" || str === "--") return null;
-  const s = String(str).trim();
-  if (["CUT", "WD", "DQ", "MDF", "W/D"].includes(s)) return null;
+  const unwrapped = extractVal(str);
+  if (unwrapped === undefined || unwrapped === null || unwrapped === "" || unwrapped === "--") return null;
+  const s = String(unwrapped).trim();
+  if (["CUT", "WD", "DQ", "MDF", "W/D"].includes(s.toUpperCase())) return null;
   if (s === "E") return 0;
   const n = parseInt(s, 10);
   return isNaN(n) ? null : n;
@@ -258,19 +269,21 @@ function buildPlayerMap(data) {
     window._apiShapeLogged = true;
   }
 
-  const crNum = parseInt(data.currentRound ?? data.current_round ?? "1", 10);
+  const crRaw = data.currentRound ?? data.current_round ?? "1";
+  const crNum = parseInt(extractVal(crRaw), 10);
 
   for (const row of data.leaderboardRows) {
     // Use accent-normalized key so "Aberg" matches "Åberg", etc.
-    const key = normalizeNameKey(row.firstName, row.lastName);
+    const key = normalizeNameKey(extractVal(row.firstName), extractVal(row.lastName));
 
     // ── 1. Try rounds[] array for completed-round strokes ──
     const rounds = { 1: null, 2: null, 3: null, 4: null };
     for (const rd of (row.rounds ?? [])) {
-      const id = parseInt(rd.roundId ?? rd.round, 10);
+      const idRaw = rd.roundId ?? rd.round;
+      const id = parseInt(extractVal(idRaw), 10);
       if (id >= 1 && id <= 4) {
         // `strokes` may be a raw count (e.g. 68) or already rel-to-par (e.g. -4)
-        const val = rd.strokes ?? rd.score ?? rd.value;
+        const val = rd.scoreToPar ?? rd.strokes ?? rd.score ?? rd.value;
         rounds[id] = toRelPar(parseScore(val));
       }
     }
@@ -296,13 +309,13 @@ function buildPlayerMap(data) {
     //    We skip this for now; the rounds[] array should cover it.
 
     map[key] = {
-      firstName: row.firstName,
-      lastName: row.lastName,
-      position: row.position,
+      firstName: extractVal(row.firstName),
+      lastName: extractVal(row.lastName),
+      position: extractVal(row.position),
       total: toRelPar(parseScore(row.total)),
       today: todayVal,
-      thru: row.thru ?? row.holesPlayed ?? "--",
-      status: row.status,
+      thru: extractVal(row.thru ?? row.holesPlayed ?? "--"),
+      status: extractVal(row.status),
       rounds,
     };
   }
