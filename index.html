@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Masters Pool Scoreboard 2026</title>
+  <meta name="description"
+    content="Track your Masters Pool standings in real-time. See who leads based on daily best-2-of-6 scoring." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- Background -->
+  <div class="bg-layer"></div>
+  <div class="bg-gradient"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <div class="logo-icon">⛳</div>
+        <div>
+          <h1 class="site-title">Wegman Masters Pool</h1>
+          <p class="site-subtitle">Augusta National · 2026</p>
+        </div>
+      </div>
+      <div class="header-controls">
+        <div class="round-badge" id="round-badge">Round <span id="current-round">—</span></div>
+        <button class="refresh-btn" id="refresh-btn" onclick="fetchLiveData()">
+          <span class="refresh-icon">↻</span>
+          <span>Refresh</span>
+        </button>
+        <button class="settings-btn" id="settings-btn" onclick="openSettings()">⚙</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Status Bar -->
+  <div class="status-bar" id="status-bar">
+    <div class="status-inner">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-text">Loading data…</span>
+      <span class="status-time" id="status-time"></span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Pool Standings Section with Round Tabs -->
+    <section class="section" id="standings-section">
+      <div class="section-header">
+        <h2 class="section-title">Pool Standings</h2>
+        <p class="section-desc">Daily payout: lowest combined best-2-of-6 score · tap a round to see that day's rankings
+        </p>
+      </div>
+
+      <!-- Tab Bar -->
+      <div class="tab-bar" id="tab-bar" role="tablist">
+        <button class="tab-btn" id="tab-r1" role="tab" onclick="switchTab(1)">R1 · Thu</button>
+        <button class="tab-btn" id="tab-r2" role="tab" onclick="switchTab(2)">R2 · Fri</button>
+        <button class="tab-btn" id="tab-r3" role="tab" onclick="switchTab(3)">R3 · Sat</button>
+        <button class="tab-btn" id="tab-r4" role="tab" onclick="switchTab(4)">R4 · Sun</button>
+        <button class="tab-btn" id="tab-tourn" role="tab" onclick="switchTab('tourn')">Tournament</button>
+      </div>
+
+      <!-- Tab Panels -->
+      <div id="tab-panels">
+        <!-- Populated by JS -->
+        <div class="loading-card">
+          <div class="spinner"></div>
+          <p>Fetching scores…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Leaderboard Section -->
+    <section class="section" id="leaderboard-section">
+      <div class="section-header">
+        <h2 class="section-title">Live Leaderboard</h2>
+        <p class="section-desc">Top pool golfers on the course right now</p>
+      </div>
+      <div class="leaderboard-table-wrap">
+        <table class="leaderboard-table" id="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Golfer</th>
+              <th>Owner</th>
+              <th>Total</th>
+              <th>Today</th>
+              <th>Thru</th>
+              <th>R1</th>
+              <th>R2</th>
+              <th>R3</th>
+              <th>R4</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body">
+            <tr>
+              <td colspan="9" class="loading-row">
+                <div class="spinner-sm"></div> Loading…
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeSettings()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2>⚙ Settings</h2>
+        <button class="modal-close" onclick="closeSettings()">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">RapidAPI Key</label>
+        <input type="password" class="form-input" id="api-key-input" placeholder="Enter your RapidAPI key…" />
+        <p class="form-hint">Your key is stored only in your browser (localStorage). Get one at <a
+            href="https://rapidapi.com/slashgolf/api/live-golf-data" target="_blank">RapidAPI</a>.</p>
+
+        <label class="form-label" style="margin-top:1.5rem">Tournament ID</label>
+        <input type="text" class="form-input" id="tourn-id-input" placeholder="e.g. 014" />
+        <p class="form-hint">The Masters is typically tournId <strong>014</strong>. Check the /schedule endpoint to
+          confirm.</p>
+
+        <label class="form-label" style="margin-top:1.5rem">Season Year</label>
+        <input type="text" class="form-input" id="season-year-input" placeholder="e.g. 2025" />
+
+        <div class="modal-actions">
+          <button class="btn-secondary" onclick="closeSettings()">Cancel</button>
+          <button class="btn-primary" onclick="saveSettings()">Save &amp; Refresh</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API Limit Warning Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="pool-config.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
