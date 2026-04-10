@@ -330,7 +330,7 @@ function calculateStandings(playerMap, roundKey) {
   const isTournament = roundKey === "tourn";
   const roundNum = isTournament ? null : parseInt(roundKey, 10);
 
-  return POOL_PARTICIPANTS.map((participant) => {
+  const sorted = POOL_PARTICIPANTS.map((participant) => {
     const picksData = participant.picks.map((pick) => {
       const key = normalizeNameKey(pick.firstName, pick.lastName);
       const player = playerMap[key];
