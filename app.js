@@ -377,6 +377,30 @@ function calculateStandings(playerMap, roundKey) {
     if (b.combinedScore !== null) return 1;
     return 0;
   });
+
+  // Calculate standard Golf Rankings (1, T2, T2, 4...)
+  sorted.forEach((p, i) => {
+    if (p.combinedScore === null) {
+      p.rankString = "--";
+      p.isLeader = false;
+      return;
+    }
+
+    if (i > 0 && p.combinedScore === sorted[i - 1].combinedScore) {
+      p.baseRank = sorted[i - 1].baseRank;
+    } else {
+      p.baseRank = i + 1;
+    }
+
+    const tiedWithPrev = (i > 0 && p.combinedScore === sorted[i - 1].combinedScore);
+    const tiedWithNext = (i < sorted.length - 1 && p.combinedScore === sorted[i + 1].combinedScore);
+    const isTied = tiedWithPrev || tiedWithNext;
+
+    p.rankString = isTied ? `T${p.baseRank}` : `${p.baseRank}`;
+    p.isLeader = (p.baseRank === 1);
+  });
+
+  return sorted;
 }
 
 // ─── Tab Logic ────────────────────────────────────────────────────────────────
@@ -443,10 +467,15 @@ function renderTabPanel(playerMap, tabKey) {
 
   let html = `<div class="standings-grid">`;
 
-  standings.forEach((participant, idx) => {
-    const rank = idx + 1;
-    const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : `#${rank}`;
-    const isLeader = rank === 1;
+  standings.forEach((participant) => {
+    const isLeader = participant.isLeader;
+    
+    let medal;
+    if (participant.rankString === "1") medal = "🥇";
+    else if (participant.rankString === "2") medal = "🥈";
+    else if (participant.rankString === "3") medal = "🥉";
+    else if (participant.rankString.startsWith("T") || participant.rankString === "--") medal = participant.rankString;
+    else medal = `#${participant.rankString}`;
 
     const best2Names = participant.best2Picks
       .map((p) => p.lastName)
