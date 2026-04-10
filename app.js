@@ -9,8 +9,8 @@
  */
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-const API_BASE    = "https://live-golf-data.p.rapidapi.com";
-const CACHE_KEY   = "masters_pool_leaderboard_cache_v2";
+const API_BASE = "https://live-golf-data.p.rapidapi.com";
+const CACHE_KEY = "masters_pool_leaderboard_cache_v2";
 const SETTINGS_KEY = "masters_pool_settings";
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 min
 
@@ -18,21 +18,21 @@ const ROUND_NAMES = { 1: "Thursday", 2: "Friday", 3: "Saturday", 4: "Sunday" };
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let leaderboardData = null;
-let currentRound    = 1;
-let activeTab       = null; // will be set to currentRound after first load
+let currentRound = 1;
+let activeTab = null; // will be set to currentRound after first load
 
 // ─── Settings ─────────────────────────────────────────────────────────────────
 function getSettings() {
   const saved = localStorage.getItem(SETTINGS_KEY);
-  const base  = { apiKey: "", tournId: DEFAULT_API_CONFIG.tournId, year: DEFAULT_API_CONFIG.year };
+  const base = { apiKey: "", tournId: DEFAULT_API_CONFIG.tournId, year: DEFAULT_API_CONFIG.year };
   return saved ? { ...base, ...JSON.parse(saved) } : base;
 }
 
 function saveSettings() {
   const settings = {
-    apiKey:  document.getElementById("api-key-input").value.trim(),
+    apiKey: document.getElementById("api-key-input").value.trim(),
     tournId: document.getElementById("tourn-id-input").value.trim(),
-    year:    document.getElementById("season-year-input").value.trim(),
+    year: document.getElementById("season-year-input").value.trim(),
   };
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
   localStorage.removeItem(CACHE_KEY); // clear cache on settings change
@@ -42,8 +42,8 @@ function saveSettings() {
 
 function openSettings() {
   const s = getSettings();
-  document.getElementById("api-key-input").value    = s.apiKey || "";
-  document.getElementById("tourn-id-input").value   = s.tournId || DEFAULT_API_CONFIG.tournId;
+  document.getElementById("api-key-input").value = s.apiKey || "";
+  document.getElementById("tourn-id-input").value = s.tournId || DEFAULT_API_CONFIG.tournId;
   document.getElementById("season-year-input").value = s.year || DEFAULT_API_CONFIG.year;
   document.getElementById("modal-overlay").classList.add("open");
 }
@@ -67,7 +67,7 @@ function getCachedData() {
     if (!raw) return null;
     const { data, timestamp } = JSON.parse(raw);
     if (Date.now() - timestamp < CACHE_TTL_MS) return data;
-  } catch {}
+  } catch { }
   return null;
 }
 
@@ -275,12 +275,12 @@ function buildPlayerMap(data) {
 
     map[key] = {
       firstName: row.firstName,
-      lastName:  row.lastName,
-      position:  row.position,
-      total:     toRelPar(parseScore(row.total)),
-      today:     todayVal,
-      thru:      row.thru ?? row.holesPlayed ?? "--",
-      status:    row.status,
+      lastName: row.lastName,
+      position: row.position,
+      total: toRelPar(parseScore(row.total)),
+      today: todayVal,
+      thru: row.thru ?? row.holesPlayed ?? "--",
+      status: row.status,
       rounds,
     };
   }
@@ -300,11 +300,11 @@ function buildPlayerMap(data) {
  */
 function calculateStandings(playerMap, roundKey) {
   const isTournament = roundKey === "tourn";
-  const roundNum     = isTournament ? null : parseInt(roundKey, 10);
+  const roundNum = isTournament ? null : parseInt(roundKey, 10);
 
   return POOL_PARTICIPANTS.map((participant) => {
     const picksData = participant.picks.map((pick) => {
-      const key    = normalizeNameKey(pick.firstName, pick.lastName);
+      const key = normalizeNameKey(pick.firstName, pick.lastName);
       const player = playerMap[key];
 
       const roundScore = isTournament
@@ -312,17 +312,17 @@ function calculateStandings(playerMap, roundKey) {
         : (player?.rounds?.[roundNum] ?? null);
 
       return {
-        name:       `${pick.firstName} ${pick.lastName}`,
-        firstName:  pick.firstName,
-        lastName:   pick.lastName,
-        found:      !!player,
+        name: `${pick.firstName} ${pick.lastName}`,
+        firstName: pick.firstName,
+        lastName: pick.lastName,
+        found: !!player,
         roundScore,                         // score for this specific day/tournament
-        total:      player?.total ?? null,  // always the tournament total
-        today:      player?.today ?? null,
-        thru:       player?.thru ?? "--",
-        position:   player?.position ?? "--",
-        rounds:     player?.rounds ?? { 1: null, 2: null, 3: null, 4: null },
-        status:     player?.status ?? "unknown",
+        total: player?.total ?? null,  // always the tournament total
+        today: player?.today ?? null,
+        thru: player?.thru ?? "--",
+        position: player?.position ?? "--",
+        rounds: player?.rounds ?? { 1: null, 2: null, 3: null, 4: null },
+        status: player?.status ?? "unknown",
       };
     });
 
@@ -337,10 +337,10 @@ function calculateStandings(playerMap, roundKey) {
       : null;
 
     return {
-      name:          participant.name,
-      picks:         picksData,
+      name: participant.name,
+      picks: picksData,
       combinedScore,
-      best2Picks:    best2,
+      best2Picks: best2,
     };
   }).sort((a, b) => {
     // Lower combined score wins; null (no data) goes to the bottom
@@ -394,18 +394,18 @@ function updateTabStates() {
     const btn = document.getElementById(`tab-r${r}`);
     if (!btn) continue;
     btn.classList.remove("tab-completed", "tab-upcoming", "tab-live");
-    if (r < currentRound)  btn.classList.add("tab-completed");
+    if (r < currentRound) btn.classList.add("tab-completed");
     if (r === currentRound) btn.classList.add("tab-live");
-    if (r > currentRound)  btn.classList.add("tab-upcoming");
+    if (r > currentRound) btn.classList.add("tab-upcoming");
   }
 }
 
 // ─── Render Tab Panel ─────────────────────────────────────────────────────────
 function renderTabPanel(playerMap, tabKey) {
-  const panel     = document.getElementById("tab-panels");
+  const panel = document.getElementById("tab-panels");
   const standings = calculateStandings(playerMap, tabKey);
-  const isTourn   = tabKey === "tourn";
-  const roundNum  = isTourn ? null : parseInt(tabKey, 10);
+  const isTourn = tabKey === "tourn";
+  const roundNum = isTourn ? null : parseInt(tabKey, 10);
 
   const label = isTourn
     ? "Tournament Total"
@@ -416,8 +416,8 @@ function renderTabPanel(playerMap, tabKey) {
   let html = `<div class="standings-grid">`;
 
   standings.forEach((participant, idx) => {
-    const rank     = idx + 1;
-    const medal    = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : `#${rank}`;
+    const rank = idx + 1;
+    const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : `#${rank}`;
     const isLeader = rank === 1;
 
     const best2Names = participant.best2Picks
@@ -448,22 +448,22 @@ function renderTabPanel(playerMap, tabKey) {
             <span>Overall</span>
           </div>
           ${participant.picks.map((pick) => {
-            const isBest2   = participant.best2Picks.some((b) => b.name === pick.name);
-            const isCut     = pick.status === "cut" || pick.status === "wd" || pick.status === "dq";
-            const dispScore = isTourn ? pick.total : pick.roundScore;
-            return `
+      const isBest2 = participant.best2Picks.some((b) => b.name === pick.name);
+      const isCut = pick.status === "cut" || pick.status === "wd" || pick.status === "dq";
+      const dispScore = isTourn ? pick.total : pick.roundScore;
+      return `
               <div class="pick-row ${isBest2 ? "best-pick" : ""} ${!pick.found ? "not-found" : ""} ${isCut ? "pick-cut" : ""}">
                 <span class="pick-name">
                   ${pick.name}
-                  ${isBest2  ? '<span class="tag-best2">Best 2</span>' : ""}
-                  ${isCut    ? '<span class="tag-cut">CUT</span>'      : ""}
+                  ${isBest2 ? '<span class="tag-best2">Best 2</span>' : ""}
+                  ${isCut ? '<span class="tag-cut">CUT</span>' : ""}
                 </span>
                 <span class="pick-pos">${pick.found ? pick.position : "✕"}</span>
                 <span class="pick-thru">${pick.thru}</span>
                 <span class="pick-today ${scoreClass(dispScore)}">${fmtScore(dispScore)}</span>
                 <span class="pick-total ${scoreClass(pick.total)}">${fmtScore(pick.total)}</span>
               </div>`;
-          }).join("")}
+    }).join("")}
         </div>
       </div>`;
   });
@@ -479,8 +479,8 @@ function renderLeaderboard(playerMap) {
   tbody.innerHTML = "";
 
   // All unique picks + who picked them
-  const allPickKeys   = new Set();
-  const pickOwnerMap  = {};
+  const allPickKeys = new Set();
+  const pickOwnerMap = {};
   const pickDisplayName = {}; // normalized key → display name with proper accents
 
   for (const participant of POOL_PARTICIPANTS) {
@@ -506,8 +506,8 @@ function renderLeaderboard(playerMap) {
   }
 
   rows.forEach(({ key, display, owners, player }) => {
-    const tr  = document.createElement("tr");
-    const cut = !player || ["cut","wd","dq"].includes(player?.status);
+    const tr = document.createElement("tr");
+    const cut = !player || ["cut", "wd", "dq"].includes(player?.status);
     if (cut) tr.classList.add("row-cut");
 
     const r = player?.rounds ?? { 1: null, 2: null, 3: null, 4: null };
@@ -545,12 +545,12 @@ function renderDemoMode() {
       const r2 = Math.floor(Math.random() * 8) - 4;
       fakeRows.push({
         firstName: pick.firstName,
-        lastName:  pick.lastName,
-        position:  String(fakeRows.length + 1),
-        total:     r1 + r2,
-        today:     r2,
-        thru:      "18",
-        status:    "active",
+        lastName: pick.lastName,
+        position: String(fakeRows.length + 1),
+        total: r1 + r2,
+        today: r2,
+        thru: "18",
+        status: "active",
         rounds: [
           { roundId: "1", strokes: String(72 + r1) },
           { roundId: "2", strokes: String(r2) },
@@ -591,7 +591,7 @@ window.addEventListener("DOMContentLoaded", () => {
     try {
       const { data } = JSON.parse(raw);
       if (data?._year && data._year !== settings.year) localStorage.removeItem(CACHE_KEY);
-    } catch {}
+    } catch { }
   }
   fetchLiveData();
 });
