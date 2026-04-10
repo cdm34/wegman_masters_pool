@@ -1106,6 +1106,6 @@ const COURSE_PAR = 72;
 // ----------------------------------------------------
 const DEFAULT_API_CONFIG = {
   tournId: "014",     // Masters is typically 014 — verify via /schedule
-  year: "2025",
+  year: "2026",
   orgId: "1",         // 1 = PGA Tour
 };
