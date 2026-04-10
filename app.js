@@ -366,6 +366,7 @@ function calculateStandings(playerMap, roundKey) {
 
     return {
       name: formatOwnerName(participant.name),
+      note: participant.note || null,
       picks: picksData,
       combinedScore,
       best2Picks: best2,
@@ -492,6 +493,7 @@ function renderTabPanel(playerMap, tabKey) {
           <div class="participant-info">
             <span class="participant-name">${participant.name}</span>
             <span class="participant-sub">Best 2: <em>${best2Names}</em>${best2Detail ? ` (${best2Detail})` : ""}</span>
+            ${participant.note ? `<span class="participant-note">${participant.note}</span>` : ""}
           </div>
           <div class="card-score-big">
             <span class="score-label-sm">${isTourn ? "Total" : isLive ? "Today" : "Round"}</span>

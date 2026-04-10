@@ -370,12 +370,17 @@ a { color: var(--gold-light); }
 }
 
 .participant-sub {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--white-dim);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.participant-note {
   display: block;
+  font-size: 0.75rem;
+  color: var(--gold);
+  margin-top: 0.2rem;
+  font-style: italic;
+  font-weight: 500;
 }
 
 .participant-sub em {
