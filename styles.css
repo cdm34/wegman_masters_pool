@@ -452,6 +452,10 @@ a { color: var(--gold-light); }
   color: var(--gold-light) !important;
   font-weight: 800;
   text-shadow: 0 0 10px rgba(200, 169, 81, 0.2);
+  border: 1px solid rgba(200, 169, 81, 0.4);
+  background: rgba(200, 169, 81, 0.1);
+  padding: 1px 4px;
+  border-radius: 4px;
 }
 
 
