@@ -423,17 +423,12 @@ function calculateStandings(playerMap, roundKey) {
       const key = normalizeNameKey(pick.firstName, pick.lastName);
       const player = playerMap[key];
 
-      const roundScore = isTournament
-        ? (player?.total ?? null)
-        : (player?.rounds?.[roundNum] ?? null);
-
       return {
         name: `${pick.firstName} ${pick.lastName}`,
         firstName: pick.firstName,
         lastName: pick.lastName,
         found: !!player,
-        roundScore,                         // score for this specific day/tournament
-        total: player?.total ?? null,  // always the tournament total
+        total: player?.total ?? null,
         today: player?.today ?? null,
         thru: player?.thru ?? "--",
         position: player?.position ?? "--",
@@ -442,24 +437,56 @@ function calculateStandings(playerMap, roundKey) {
       };
     });
 
-    // Sort picks by this round's score (ascending = best)
-    const scoredPicks = picksData
-      .filter((p) => p.roundScore !== null)
-      .sort((a, b) => a.roundScore - b.roundScore);
+    if (isTournament) {
+      // Tournament Score = Sum of daily Best 2s
+      let combinedScore = 0;
+      let hasData = false;
+      const dailyTotals = { 1: null, 2: null, 3: null, 4: null };
 
-    const best2 = scoredPicks.slice(0, SCORING_CONFIG.dailyPicksScored);
-    const combinedScore = best2.length > 0
-      ? best2.reduce((sum, p) => sum + p.roundScore, 0)
-      : null;
+      for (let r = 1; r <= 4; r++) {
+        const roundPicks = picksData
+          .map(p => ({ ...p, score: p.rounds[r] }))
+          .filter(p => p.score !== null)
+          .sort((a, b) => a.score - b.score);
+        
+        if (roundPicks.length > 0) {
+          const b2 = roundPicks.slice(0, SCORING_CONFIG.dailyPicksScored);
+          const rTotal = b2.reduce((sum, p) => sum + p.score, 0);
+          dailyTotals[r] = rTotal;
+          combinedScore += rTotal;
+          hasData = true;
+        }
+      }
 
-    return {
-      name: formatOwnerName(participant.name),
-      rawName: participant.name, // Keep the original comma-separated name for ID purposes
-      note: participant.note || null,
-      picks: picksData,
-      combinedScore,
-      best2Picks: best2,
-    };
+      return {
+        name: formatOwnerName(participant.name),
+        rawName: participant.name,
+        note: participant.note || null,
+        picks: picksData,
+        combinedScore: hasData ? combinedScore : null,
+        dailyTotals,
+      };
+    } else {
+      // Daily Score = Best 2 of current round
+      const scoredPicks = picksData
+        .map(p => ({ ...p, roundScore: p.rounds[roundNum] }))
+        .filter((p) => p.roundScore !== null)
+        .sort((a, b) => a.roundScore - b.roundScore);
+
+      const best2 = scoredPicks.slice(0, SCORING_CONFIG.dailyPicksScored);
+      const combinedScore = best2.length > 0
+        ? best2.reduce((sum, p) => sum + p.roundScore, 0)
+        : null;
+
+      return {
+        name: formatOwnerName(participant.name),
+        rawName: participant.name,
+        note: participant.note || null,
+        picks: picksData,
+        combinedScore,
+        best2Picks: best2,
+      };
+    }
   }).sort((a, b) => {
     // Lower combined score wins; null (no data) goes to the bottom
     if (a.combinedScore !== null && b.combinedScore !== null) return a.combinedScore - b.combinedScore;
