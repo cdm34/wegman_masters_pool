@@ -691,6 +691,10 @@ function renderTabPanel(playerMap, tabKey) {
               </div>`;
       }
 
+      const displayThru = (roundNum < currentRound) 
+        ? "F" 
+        : (roundNum === currentRound ? pick.thru : "--");
+
       return `
               <div class="pick-row ${isBest2 ? "best-pick" : ""} ${!pick.found ? "not-found" : ""} ${showCutIndicator ? "pick-cut" : ""}">
                 <span class="pick-name">
@@ -699,7 +703,7 @@ function renderTabPanel(playerMap, tabKey) {
                   ${showCutIndicator ? '<span class="tag-cut">CUT</span>' : ""}
                 </span>
                 <span class="pick-pos">${pick.found ? pick.position : "✕"}</span>
-                <span class="pick-thru">${pick.thru}</span>
+                <span class="pick-thru">${displayThru}</span>
                 <span class="pick-today ${scoreClass(pick.rounds[roundNum])}">${fmtScore(pick.rounds[roundNum])}</span>
                 <span class="pick-total ${scoreClass(pick.total)}">${fmtScore(pick.total)}</span>
               </div>`;
