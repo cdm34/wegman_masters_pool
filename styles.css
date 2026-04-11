@@ -443,6 +443,18 @@ a { color: var(--gold-light); }
   grid-template-columns: 1fr 40px 42px 42px 42px 42px 50px;
 }
 
+.is-tourn .picks-header span:not(:first-child),
+.is-tourn .pick-row span:not(:first-child) {
+  text-align: center;
+}
+
+.best-round-score {
+  color: var(--gold-light) !important;
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(200, 169, 81, 0.2);
+}
+
+
 @media (max-width: 640px) {
   .is-tourn .picks-header,
   .is-tourn .pick-row {

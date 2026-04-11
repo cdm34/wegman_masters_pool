@@ -657,7 +657,20 @@ function renderTabPanel(playerMap, tabKey) {
               : `<span>Thru</span><span>R${roundNum}</span><span>Overall</span>`
             }
           </div>
-          ${participant.picks.map((pick) => {
+          ${(() => {
+            // For tournament tab, pre-calculate which golfers are best 2 for EACH round
+            const bestInRound = { 1: [], 2: [], 3: [], 4: [] };
+            if (isTourn) {
+              for (let r = 1; r <= 4; r++) {
+                const dayScores = participant.picks
+                  .map((p, i) => ({ i, s: p.rounds[r] }))
+                  .filter(x => x.s !== null)
+                  .sort((a, b) => a.s - b.s);
+                bestInRound[r] = dayScores.slice(0, SCORING_CONFIG.dailyPicksScored).map(x => x.i);
+              }
+            }
+
+            return participant.picks.map((pick, pIdx) => {
       const isBest2 = !isTourn && participant.best2Picks?.some((b) => b.name === pick.name);
       const isCut = pick.status === "cut" || pick.status === "wd" || pick.status === "dq";
       const showCutIndicator = isCut && (roundNum > 2 || isTourn);
@@ -670,10 +683,10 @@ function renderTabPanel(playerMap, tabKey) {
                   ${showCutIndicator ? '<span class="tag-cut">CUT</span>' : ""}
                 </span>
                 <span class="pick-pos">${pick.found ? pick.position : "✕"}</span>
-                <span class="pick-score ${scoreClass(pick.rounds[1])}">${fmtScore(pick.rounds[1])}</span>
-                <span class="pick-score ${scoreClass(pick.rounds[2])}">${fmtScore(pick.rounds[2])}</span>
-                <span class="pick-score ${scoreClass(pick.rounds[3])}">${fmtScore(pick.rounds[3])}</span>
-                <span class="pick-score ${scoreClass(pick.rounds[4])}">${fmtScore(pick.rounds[4])}</span>
+                <span class="pick-score ${scoreClass(pick.rounds[1])} ${bestInRound[1].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(pick.rounds[1])}</span>
+                <span class="pick-score ${scoreClass(pick.rounds[2])} ${bestInRound[2].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(pick.rounds[2])}</span>
+                <span class="pick-score ${scoreClass(pick.rounds[3])} ${bestInRound[3].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(pick.rounds[3])}</span>
+                <span class="pick-score ${scoreClass(pick.rounds[4])} ${bestInRound[4].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(pick.rounds[4])}</span>
                 <span class="pick-total ${scoreClass(pick.total)}">${fmtScore(pick.total)}</span>
               </div>`;
       }
@@ -690,7 +703,8 @@ function renderTabPanel(playerMap, tabKey) {
                 <span class="pick-today ${scoreClass(pick.rounds[roundNum])}">${fmtScore(pick.rounds[roundNum])}</span>
                 <span class="pick-total ${scoreClass(pick.total)}">${fmtScore(pick.total)}</span>
               </div>`;
-    }).join("")}
+    }).join("");
+          })()}
         </div>
       </div>`;
   });
