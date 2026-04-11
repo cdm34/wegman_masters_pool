@@ -190,7 +190,7 @@ const POOL_PARTICIPANTS = [
       { firstName: "Ludvig", lastName: "Aberg" },
       { firstName: "Shane", lastName: "Lowry" },
       { firstName: "Akshay", lastName: "Bhatia" },
-      { firstName: "Justin", lastName: "Rose" },
+      { firstName: "Cameron", lastName: "Smith" },
     ],
   },
   {
