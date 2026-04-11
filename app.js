@@ -628,13 +628,16 @@ function renderTabPanel(playerMap, tabKey) {
           ${participant.picks.map((pick) => {
       const isBest2 = participant.best2Picks.some((b) => b.name === pick.name);
       const isCut = pick.status === "cut" || pick.status === "wd" || pick.status === "dq";
+      // Only show CUT indicator in Tournament tab or weekend tabs (R3/R4)
+      const showCutIndicator = isCut && (isTourn || roundNum > 2);
       const dispScore = isTourn ? pick.total : pick.roundScore;
+
       return `
-              <div class="pick-row ${isBest2 ? "best-pick" : ""} ${!pick.found ? "not-found" : ""} ${isCut ? "pick-cut" : ""}">
+              <div class="pick-row ${isBest2 ? "best-pick" : ""} ${!pick.found ? "not-found" : ""} ${showCutIndicator ? "pick-cut" : ""}">
                 <span class="pick-name">
                   ${pick.name}
                   ${isBest2 ? '<span class="tag-best2">Best 2</span>' : ""}
-                  ${isCut ? '<span class="tag-cut">CUT</span>' : ""}
+                  ${showCutIndicator ? '<span class="tag-cut">CUT</span>' : ""}
                 </span>
                 <span class="pick-pos">${pick.found ? pick.position : "✕"}</span>
                 <span class="pick-thru">${pick.thru}</span>
