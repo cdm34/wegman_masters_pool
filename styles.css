@@ -437,6 +437,23 @@ a { color: var(--gold-light); }
 
 .picks-header span:not(:first-child) { text-align: right; }
 
+/* Tournament Tab Expanded Layout */
+.is-tourn .picks-header,
+.is-tourn .pick-row {
+  grid-template-columns: 1fr 40px 42px 42px 42px 42px 50px;
+}
+
+@media (max-width: 640px) {
+  .is-tourn .picks-header,
+  .is-tourn .pick-row {
+    grid-template-columns: 1fr 34px 34px 34px 34px 34px 44px;
+    font-size: 0.72rem;
+    padding: 0.4rem 0.75rem;
+    gap: 0.25rem;
+  }
+  .is-tourn .pick-pos { display: none; }
+}
+
 .pick-row {
   border-bottom: 1px solid rgba(255,255,255,0.04);
   transition: background var(--transition);

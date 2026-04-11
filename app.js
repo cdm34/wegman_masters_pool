@@ -42,7 +42,7 @@ function initFeatured() {
 
   const savedToggle = localStorage.getItem(TOGGLE_KEY);
   showFeaturedOnly = savedToggle === "true";
-  
+
   // Update checkbox state if element exists
   const toggle = document.getElementById("featured-toggle");
   if (toggle) toggle.checked = showFeaturedOnly;
@@ -234,7 +234,7 @@ function normalizeNameKey(firstName, lastName) {
   if (norm === "matthew fitzpatrick") return "matt fitzpatrick";
   if (norm === "partick cantlay") return "patrick cantlay";
   if (norm === "partrick reed") return "patrick reed";
-  
+
   return norm;
 }
 /** Unwrap MongoDB extended JSON values if present */
@@ -394,8 +394,8 @@ function formatOwnerName(rawName) {
   if (!rawName.includes(",")) return rawName;
   const parts = rawName.split(",");
   const lastName = parts[0].trim();
-  const firstPart = parts[1].trim(); 
-  
+  const firstPart = parts[1].trim();
+
   // Extract trailing tags like #1, #2, or (Papa 1) from first name if present
   const match = firstPart.match(/^(.*?)\s+(#\d+|\(.*\))$/);
   if (match) {
@@ -452,7 +452,7 @@ function calculateStandings(playerMap, roundKey) {
       ? best2.reduce((sum, p) => sum + p.roundScore, 0)
       : null;
 
-      return {
+    return {
       name: formatOwnerName(participant.name),
       rawName: participant.name, // Keep the original comma-separated name for ID purposes
       note: participant.note || null,
@@ -532,7 +532,7 @@ function renderAll() {
     if (day === 11 && detectedRound < 3) detectedRound = 3; // Sat
     if (day === 12 && detectedRound < 4) detectedRound = 4; // Sun
   }
-  
+
   currentRound = detectedRound;
   document.getElementById("current-round").textContent = currentRound;
 
@@ -586,7 +586,7 @@ function renderTabPanel(playerMap, tabKey) {
   filteredStandings.forEach((participant) => {
     const isLeader = participant.isLeader;
     const isFeatured = featuredTeams.has(participant.rawName);
-    
+
     let medal;
     if (participant.rankString === "1") medal = "🥇";
     else if (participant.rankString === "2") medal = "🥈";
@@ -594,13 +594,16 @@ function renderTabPanel(playerMap, tabKey) {
     else if (participant.rankString.startsWith("T") || participant.rankString === "--") medal = participant.rankString;
     else medal = `#${participant.rankString}`;
 
-    const best2Names = participant.best2Picks
-      .map((p) => p.lastName)
-      .join(" + ") || "—";
-
-    const best2Detail = participant.best2Picks
-      .map((p) => `${fmtScore(p.roundScore)}`)
-      .join(" + ") || "";
+    // Header logic differences
+    let subLabel = "";
+    if (isTourn) {
+      const totals = [1, 2, 3, 4].map(r => fmtScore(participant.dailyTotals[r]));
+      subLabel = `Daily B2 Sum: <em>${totals.join(" + ")}</em>`;
+    } else {
+      const names = participant.best2Picks.map(p => p.lastName).join(" + ") || "—";
+      const detail = participant.best2Picks.map(p => fmtScore(p.roundScore)).join(" + ");
+      subLabel = `Best 2: <em>${names}</em>${detail ? ` (${detail})` : ""}`;
+    }
 
     html += `
       <div class="standing-card${isLeader ? " leader" : ""}${isFeatured ? " featured" : ""}" id="sc-${participant.name.replace(/\W/g, "-")}">
@@ -611,7 +614,7 @@ function renderTabPanel(playerMap, tabKey) {
           <span class="rank-badge">${medal}</span>
           <div class="participant-info">
             <span class="participant-name">${participant.name}</span>
-            <span class="participant-sub">Best 2: <em>${best2Names}</em>${best2Detail ? ` (${best2Detail})` : ""}</span>
+            <span class="participant-sub">${subLabel}</span>
             ${participant.note ? `<span class="participant-note">${participant.note}</span>` : ""}
           </div>
           <div class="card-score-big">
@@ -619,18 +622,34 @@ function renderTabPanel(playerMap, tabKey) {
             <span class="score-big ${scoreClass(participant.combinedScore)}">${fmtScore(participant.combinedScore)}</span>
           </div>
         </div>
-        <div class="picks-list">
+        <div class="picks-list${isTourn ? " is-tourn" : ""}">
           <div class="picks-header">
-            <span>Golfer</span><span>Pos</span><span>Thru</span>
-            <span>${isTourn ? "Total" : "R" + (isTourn ? "" : roundNum)}</span>
-            <span>Overall</span>
+            <span>Golfer</span><span>Pos</span>
+            ${isTourn 
+              ? `<span>R1</span><span>R2</span><span>R3</span><span>R4</span><span>Total</span>`
+              : `<span>Thru</span><span>R${roundNum}</span><span>Overall</span>`
+            }
           </div>
           ${participant.picks.map((pick) => {
-      const isBest2 = participant.best2Picks.some((b) => b.name === pick.name);
+      const isBest2 = !isTourn && participant.best2Picks?.some((b) => b.name === pick.name);
       const isCut = pick.status === "cut" || pick.status === "wd" || pick.status === "dq";
-      // Only show CUT indicator in Tournament tab or weekend tabs (R3/R4)
-      const showCutIndicator = isCut && (isTourn || roundNum > 2);
-      const dispScore = isTourn ? pick.total : pick.roundScore;
+      const showCutIndicator = isCut && (roundNum > 2 || isTourn);
+      
+      if (isTourn) {
+        return `
+              <div class="pick-row ${isCut ? "pick-cut" : ""}">
+                <span class="pick-name">
+                  ${pick.name}
+                  ${showCutIndicator ? '<span class="tag-cut">CUT</span>' : ""}
+                </span>
+                <span class="pick-pos">${pick.found ? pick.position : "✕"}</span>
+                <span class="pick-score ${scoreClass(pick.rounds[1])}">${fmtScore(pick.rounds[1])}</span>
+                <span class="pick-score ${scoreClass(pick.rounds[2])}">${fmtScore(pick.rounds[2])}</span>
+                <span class="pick-score ${scoreClass(pick.rounds[3])}">${fmtScore(pick.rounds[3])}</span>
+                <span class="pick-score ${scoreClass(pick.rounds[4])}">${fmtScore(pick.rounds[4])}</span>
+                <span class="pick-total ${scoreClass(pick.total)}">${fmtScore(pick.total)}</span>
+              </div>`;
+      }
 
       return `
               <div class="pick-row ${isBest2 ? "best-pick" : ""} ${!pick.found ? "not-found" : ""} ${showCutIndicator ? "pick-cut" : ""}">
@@ -641,7 +660,7 @@ function renderTabPanel(playerMap, tabKey) {
                 </span>
                 <span class="pick-pos">${pick.found ? pick.position : "✕"}</span>
                 <span class="pick-thru">${pick.thru}</span>
-                <span class="pick-today ${scoreClass(dispScore)}">${fmtScore(dispScore)}</span>
+                <span class="pick-today ${scoreClass(pick.rounds[roundNum])}">${fmtScore(pick.rounds[roundNum])}</span>
                 <span class="pick-total ${scoreClass(pick.total)}">${fmtScore(pick.total)}</span>
               </div>`;
     }).join("")}
@@ -778,6 +797,6 @@ window.addEventListener("DOMContentLoaded", () => {
       if (data?._year && data._year !== settings.year) localStorage.removeItem(CACHE_KEY);
     } catch { }
   }
-    initFeatured();
+  initFeatured();
   fetchLiveData();
 });
