@@ -387,6 +387,52 @@ function buildPlayerMap(data) {
 }
 
 /**
+ * Re-calculates the field-wide leaderboard rankings for a specific past round.
+ * Useful for showing positions in the R1, R2, or R3 tabs that reflect 
+ * the state of the tournament at that time.
+ */
+function calculateHistoricalRanks(playerMap, roundNum) {
+  const playersInField = Object.values(playerMap).map(p => {
+    let scoreAtRound = 0;
+    let playedAtRound = true;
+    for (let r = 1; r <= roundNum; r++) {
+      if (p.rounds[r] === null) {
+        playedAtRound = false;
+        break;
+      }
+      scoreAtRound += p.rounds[r];
+    }
+    return { 
+      key: normalizeNameKey(p.firstName, p.lastName),
+      fullName: `${p.firstName} ${p.lastName}`,
+      scoreAtRound, 
+      playedAtRound 
+    };
+  }).filter(p => p.playedAtRound);
+
+  // Sort field by cumulative score at that round
+  playersInField.sort((a, b) => a.scoreAtRound - b.scoreAtRound);
+
+  const ranks = {};
+  // Standard tie logic (1, 2, 2, 4...)
+  playersInField.forEach((p, i) => {
+    if (i > 0 && p.scoreAtRound === playersInField[i - 1].scoreAtRound) {
+      p.baseRank = playersInField[i - 1].baseRank;
+    } else {
+      p.baseRank = i + 1;
+    }
+  });
+
+  playersInField.forEach((p, i) => {
+    const tied = (i > 0 && p.scoreAtRound === playersInField[i - 1].scoreAtRound) ||
+                 (i < playersInField.length - 1 && p.scoreAtRound === playersInField[i + 1].scoreAtRound);
+    ranks[p.key] = tied ? `T${p.baseRank}` : `${p.baseRank}`;
+  });
+
+  return ranks;
+}
+
+/**
  * Converts "Last, First" into "First Last". 
  * Preserves trailing identifiers like "#1" or "(Papa 1)" correctly.
  */
@@ -418,6 +464,11 @@ function calculateStandings(playerMap, roundKey) {
   const isTournament = roundKey === "tourn";
   const roundNum = isTournament ? null : parseInt(roundKey, 10);
 
+  // Pre-calculate field rankings for past rounds so "Pos" is historically accurate
+  const historicalRanks = (!isTournament && roundNum < currentRound) 
+    ? calculateHistoricalRanks(playerMap, roundNum)
+    : null;
+
   const sorted = POOL_PARTICIPANTS.map((participant) => {
     const picksData = participant.picks.map((pick) => {
       const key = normalizeNameKey(pick.firstName, pick.lastName);
@@ -431,7 +482,7 @@ function calculateStandings(playerMap, roundKey) {
         total: player?.total ?? null,
         today: player?.today ?? null,
         thru: player?.thru ?? "--",
-        position: player?.position ?? "--",
+        position: historicalRanks ? (historicalRanks[key] ?? "--") : (player?.position ?? "--"),
         rounds: player?.rounds ?? { 1: null, 2: null, 3: null, 4: null },
         status: player?.status ?? "unknown",
       };
