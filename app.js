@@ -496,7 +496,12 @@ function calculateStandings(playerMap, roundKey) {
 
       for (let r = 1; r <= 4; r++) {
         const roundPicks = picksData
-          .map(p => ({ ...p, score: p.rounds[r] }))
+          .map(p => {
+            const isCutGlobal = ["cut", "wd", "dq", "wd"].includes(p.status.toLowerCase());
+            // If they are cut, their scores for R3/R4 don't count towards the team total
+            const effectiveScore = (r > 2 && isCutGlobal) ? null : p.rounds[r];
+            return { ...p, score: effectiveScore };
+          })
           .filter(p => p.score !== null)
           .sort((a, b) => a.score - b.score);
         
@@ -714,7 +719,11 @@ function renderTabPanel(playerMap, tabKey) {
             if (isTourn) {
               for (let r = 1; r <= 4; r++) {
                 const dayScores = participant.picks
-                  .map((p, i) => ({ i, s: p.rounds[r] }))
+                  .map((p, i) => {
+                    const isCutG = ["cut", "wd", "dq"].includes(p.status.toLowerCase());
+                    const s = (r > 2 && isCutG) ? null : p.rounds[r];
+                    return { i, s };
+                  })
                   .filter(x => x.s !== null)
                   .sort((a, b) => a.s - b.s);
                 bestInRound[r] = dayScores.slice(0, SCORING_CONFIG.dailyPicksScored).map(x => x.i);
@@ -727,6 +736,10 @@ function renderTabPanel(playerMap, tabKey) {
       const showCutIndicator = isCut && (roundNum > 2 || isTourn);
       
       if (isTourn) {
+        // For display in tournament tab: hide R3/R4 if cut
+        const r3v = (isCut) ? null : pick.rounds[3];
+        const r4v = (isCut) ? null : pick.rounds[4];
+
         return `
               <div class="pick-row ${isCut ? "pick-cut" : ""}">
                 <span class="pick-name">
@@ -736,8 +749,8 @@ function renderTabPanel(playerMap, tabKey) {
                 <span class="pick-pos">${pick.found ? pick.position : "✕"}</span>
                 <span class="pick-score ${scoreClass(pick.rounds[1])} ${bestInRound[1].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(pick.rounds[1])}</span>
                 <span class="pick-score ${scoreClass(pick.rounds[2])} ${bestInRound[2].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(pick.rounds[2])}</span>
-                <span class="pick-score ${scoreClass(pick.rounds[3])} ${bestInRound[3].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(pick.rounds[3])}</span>
-                <span class="pick-score ${scoreClass(pick.rounds[4])} ${bestInRound[4].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(pick.rounds[4])}</span>
+                <span class="pick-score ${scoreClass(r3v)} ${bestInRound[3].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(r3v)}</span>
+                <span class="pick-score ${scoreClass(r4v)} ${bestInRound[4].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(r4v)}</span>
                 <span class="pick-total ${scoreClass(pick.total)}">${fmtScore(pick.total)}</span>
               </div>`;
       }
