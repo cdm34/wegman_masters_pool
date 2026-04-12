@@ -25,7 +25,6 @@ let lastApiUpdateMs = null; // tracks actual API ping time
 // ─── Featured Teams ──────────────────────────────────────────────────────────
 const FEATURED_KEY = "masters_pool_featured_teams";
 const TOGGLE_KEY = "masters_pool_show_featured";
-const DEFAULT_FEATURED_TEAMS = ["Adam, Colin", "Wegman, Brett", "Corell, Charlie", "Riggs, Ryan"];
 
 let featuredTeams = new Set();
 let showFeaturedOnly = false;
@@ -35,8 +34,8 @@ function initFeatured() {
   if (savedTeams) {
     featuredTeams = new Set(JSON.parse(savedTeams));
   } else {
-    // First run or cleared cache: use defaults
-    featuredTeams = new Set(DEFAULT_FEATURED_TEAMS);
+    // Start with empty set
+    featuredTeams = new Set();
     localStorage.setItem(FEATURED_KEY, JSON.stringify([...featuredTeams]));
   }
 
