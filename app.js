@@ -523,6 +523,7 @@ function calculateStandings(playerMap, roundKey) {
       return {
         name: formatOwnerName(participant.name),
         rawName: participant.name,
+        tieBreaker: participant.tieBreaker || null,
         note: participant.note || null,
         picks: picksData,
         combinedScore: hasData ? combinedScore : null,
@@ -543,6 +544,7 @@ function calculateStandings(playerMap, roundKey) {
       return {
         name: formatOwnerName(participant.name),
         rawName: participant.name,
+        tieBreaker: participant.tieBreaker || null,
         note: participant.note || null,
         picks: picksData,
         combinedScore,
@@ -704,6 +706,7 @@ function renderTabPanel(playerMap, tabKey) {
           <div class="participant-info">
             <span class="participant-name">${participant.name}</span>
             <span class="participant-sub">${subLabel}</span>
+            ${(isTourn && participant.tieBreaker !== null) ? `<span class="participant-tiebreaker">Tie Breaker: ${participant.tieBreaker}</span>` : ""}
             ${participant.note ? `<span class="participant-note">${participant.note}</span>` : ""}
           </div>
           <div class="card-score-big">

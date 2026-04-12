@@ -15,6 +15,7 @@
 const POOL_PARTICIPANTS = [
   {
     name: "Adam, Colin",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Patrick Reed
     picks: [
       { firstName: "Bryson", lastName: "DeChambeau" },
@@ -27,6 +28,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Alcorn, Jeff #1",
+    tieBreaker: -9,
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -39,6 +41,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Alcorn, Jeff #2",
+    tieBreaker: -9,
     // Alternate (use if a pick WDs): Hideki Matsuyama
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -51,6 +54,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Barp, Eric",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Viktor Hovland
     picks: [
       { firstName: "Cameron", lastName: "Young" },
@@ -63,6 +67,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Barp, Tyler",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Jacob Bridgeman
     picks: [
       { firstName: "Matt", lastName: "Fitzpatrick" },
@@ -75,6 +80,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Bates, Adam",
+    tieBreaker: -10,
     // Alternate (use if a pick WDs): Corey Conners
     picks: [
       { firstName: "Bryson", lastName: "DeChambeau" },
@@ -87,6 +93,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Beecher, Bryce",
+    tieBreaker: -10,
     // Alternate (use if a pick WDs): Corey Conners
     picks: [
       { firstName: "Cameron", lastName: "Young" },
@@ -99,6 +106,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Beecher, Russ",
+    tieBreaker: -11,
     // Alternate (use if a pick WDs): Sepp Straka
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -111,6 +119,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Bennett, Nick",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Viktor Hovland
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -123,6 +132,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Bianchi, Keegan",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Max Homa
     picks: [
       { firstName: "Xander", lastName: "Schauffele" },
@@ -135,6 +145,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Biegger, Brad",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Jason Day
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -147,6 +158,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Biegger, Matt",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Jason Day
     picks: [
       { firstName: "Rory", lastName: "McIlroy" },
@@ -159,6 +171,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Biegger, Mike",
+    tieBreaker: -11,
     // Alternate (use if a pick WDs): Akshay Bhatia
     picks: [
       { firstName: "Tommy", lastName: "Fleetwood" },
@@ -171,6 +184,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Brosnahan, William",
+    tieBreaker: -11,
     // Alternate (use if a pick WDs): Max Homa
     picks: [
       { firstName: "Rory", lastName: "McIlroy" },
@@ -183,6 +197,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Buddecke, Don",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Cameron Smith
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -195,6 +210,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Chamberlin, Ryan",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Akshay Bhatia
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -207,6 +223,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Chapman, Graham",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Robert MacIntyre
     picks: [
       { firstName: "Xander", lastName: "Schauffele" },
@@ -219,6 +236,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Coenen, Amy",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Brooks Koepka
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -231,6 +249,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Coleman, Eric",
+    tieBreaker: -11,
     // Alternate (use if a pick WDs): Akshay Bhatia
     picks: [
       { firstName: "Cameron", lastName: "Young" },
@@ -243,6 +262,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Conley, Kevin",
+    tieBreaker: -16,
     // Alternate (use if a pick WDs): Robert MacIntyre
     picks: [
       { firstName: "Bryson", lastName: "DeChambeau" },
@@ -255,6 +275,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Cooling, Nick",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Fred Couples
     picks: [
       { firstName: "Justin", lastName: "Rose" },
@@ -267,6 +288,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Corell, Charlie",
+    tieBreaker: -15,
     // Alternate (use if a pick WDs): Brian Harman
     picks: [
       { firstName: "Bryson", lastName: "DeChambeau" },
@@ -279,6 +301,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Corell, Grant",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Tyrrell Hatton
     picks: [
       { firstName: "Bryson", lastName: "DeChambeau" },
@@ -291,6 +314,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Corell, Sarah",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Sungjae Im
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -303,6 +327,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Davis, Luke",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Akshay Bhatia
     picks: [
       { firstName: "Rory", lastName: "McIlroy" },
@@ -315,6 +340,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Faidley, Jamie",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Patrick Reed
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -327,6 +353,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Grimm, Kevin",
+    tieBreaker: -11,
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
       { firstName: "Cameron", lastName: "Young" },
@@ -339,6 +366,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Hancock, Shawn",
+    tieBreaker: -11,
     // Alternate (use if a pick WDs): Shane Lowry
     picks: [
       { firstName: "Cameron", lastName: "Young" },
@@ -351,6 +379,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Hartlieb, Chuck #1",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Dustin Johnson
     picks: [
       { firstName: "Cameron", lastName: "Young" },
@@ -363,6 +392,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Hartlieb, Chuck #2",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Dustin Johnson
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -375,6 +405,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Hartlieb, Dan #1",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Dustin Johnson
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -387,6 +418,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Hartlieb, Dan #2",
+    tieBreaker: -1,
     // Alternate (use if a pick WDs): Dustin Johnson
     picks: [
       { firstName: "Cameron", lastName: "Young" },
@@ -399,6 +431,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Hartlieb, Lou",
+    tieBreaker: -15,
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -411,6 +444,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Haynes, Chris",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Sepp Straka
     picks: [
       { firstName: "Matt", lastName: "Fitzpatrick" },
@@ -423,6 +457,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Haynes, Zach",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Ben Griffin
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -435,6 +470,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Herrera, Ben",
+    tieBreaker: -10,
     // Alternate (use if a pick WDs): Akshay Bhatia
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -447,6 +483,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Hurley, John",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Shane Lowry
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -459,6 +496,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Jackson, Joel #1",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Sepp Straka
     picks: [
       { firstName: "Matt", lastName: "Fitzpatrick" },
@@ -471,6 +509,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Jackson, Joel #2",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Sam Burns
     picks: [
       { firstName: "Xander", lastName: "Schauffele" },
@@ -483,6 +522,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Jackson, Trey",
+    tieBreaker: -10,
     // Alternate (use if a pick WDs): Patrick Reed
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -495,6 +535,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Johnson, Ron",
+    tieBreaker: -10,
     // Alternate (use if a pick WDs): Jake Knapp
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -507,6 +548,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Johnson, Tom",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Brooks Koepka
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -519,6 +561,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "LeMense, Zach",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Patrick Reed
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -531,6 +574,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "LeWarne, Steve (Papa 1)",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Jordan Spieth
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -543,6 +587,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "LeWarne, Steve (Papa 2)",
+    tieBreaker: -15,
     // Alternate (use if a pick WDs): Sam Burns
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -555,6 +600,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "McCarty, Anna",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Brooks Koepka
     picks: [
       { firstName: "Bryson", lastName: "DeChambeau" },
@@ -567,6 +613,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "McCarty, Joe",
+    tieBreaker: -11,
     // Alternate (use if a pick WDs): Matthew McCarty
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -579,6 +626,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "McCarty, Marissa",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Si Woo Kim
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -591,6 +639,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Mott, Kyle",
+    tieBreaker: -10,
     // Alternate (use if a pick WDs): Aldrich Potgieter
     picks: [
       { firstName: "Justin", lastName: "Rose" },
@@ -603,6 +652,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Moulton, Cade",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
       { firstName: "Cameron", lastName: "Young" },
@@ -615,6 +665,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Mueller, Dustin",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Robert MacIntyre
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -627,6 +678,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Nelson, Joel",
+    tieBreaker: -10,
     // Alternate (use if a pick WDs): Akshay Bhatia
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -639,6 +691,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "O'Hare, Jim",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Maverick McNealy
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -651,6 +704,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "O'Hare, Kevin #1",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Si Woo Kim
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -663,6 +717,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "O'Hare, Kevin #2",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Justin Thomas
     picks: [
       { firstName: "Rory", lastName: "McIlroy" },
@@ -675,6 +730,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "O'Hare, Ryan",
+    tieBreaker: -16,
     // Alternate (use if a pick WDs): Max Homa
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -687,6 +743,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "O'Hare, Sean",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Cameron Smith
     picks: [
       { firstName: "Matt", lastName: "Fitzpatrick" },
@@ -699,6 +756,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Pearce, Brandon",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Jason Day
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -711,6 +769,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Pearson, Jay",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Viktor Hovland
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -723,6 +782,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Pearson, Joel",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Akshay Bhatia
     picks: [
       { firstName: "Xander", lastName: "Schauffele" },
@@ -735,6 +795,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Pearson, Jonathon",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Adam Scott
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -747,6 +808,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Pearson, Spencer",
+    tieBreaker: -10,
     // Alternate (use if a pick WDs): Adam Scott
     picks: [
       { firstName: "Xander", lastName: "Schauffele" },
@@ -759,6 +821,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Plummer, Craig",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): J.J. Spaun
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -771,6 +834,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Price, Grant",
+    tieBreaker: -10,
     // Alternate (use if a pick WDs): Jake Knapp
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -783,6 +847,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Price, Joe",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Brooks Koepka
     picks: [
       { firstName: "Xander", lastName: "Schauffele" },
@@ -795,6 +860,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Pyle, Mike",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Adam Scott
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -807,6 +873,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Rice, Josh",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Tyrrell Hatton
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -819,6 +886,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Richter, Pat",
+    tieBreaker: -16,
     // Alternate (use if a pick WDs): Shane Lowry
     picks: [
       { firstName: "Chris", lastName: "Gotterup" },
@@ -831,6 +899,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Riggs, Ryan",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Ludvig Aberg
     picks: [
       { firstName: "Bryson", lastName: "DeChambeau" },
@@ -843,6 +912,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Rizk, Bill",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Tyrrell Hatton
     picks: [
       { firstName: "Matt", lastName: "Fitzpatrick" },
@@ -855,6 +925,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Schneebeck, James",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Jordan Spieth
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -867,6 +938,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Shindler, Aaron",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Shane Lowry
     picks: [
       { firstName: "Tommy", lastName: "Fleetwood" },
@@ -879,6 +951,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Simplot, Tim",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Patrick Reed
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -891,6 +964,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Smith, Josh",
+    tieBreaker: -7,
     // Alternate (use if a pick WDs): Hideki Matsuyama
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -903,6 +977,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Snakenberg, Cade",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Viktor Hovland
     picks: [
       { firstName: "Xander", lastName: "Schauffele" },
@@ -915,6 +990,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Stewart, Mitch",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Akshay Bhatia
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -927,6 +1003,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Varcoe, Nick",
+    tieBreaker: -9,
     // Alternate (use if a pick WDs): Harris English
     picks: [
       { firstName: "Xander", lastName: "Schauffele" },
@@ -939,6 +1016,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Vinyard, Tim",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Brooks Koepka
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -951,6 +1029,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Vogel, Rod #1",
+    tieBreaker: -15,
     // Alternate (use if a pick WDs): Viktor Hovland
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -963,6 +1042,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Vogel, Rod #2",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Tyrrell Hatton
     picks: [
       { firstName: "Rory", lastName: "McIlroy" },
@@ -975,6 +1055,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Wegman, Billy",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Jason Day
     picks: [
       { firstName: "Rory", lastName: "McIlroy" },
@@ -987,6 +1068,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Wegman, Brett",
+    tieBreaker: -16,
     // Alternate (use if a pick WDs): Max Homa
     picks: [
       { firstName: "Collin", lastName: "Morikawa" },
@@ -999,6 +1081,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Wegman, Jay",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
       { firstName: "Jon", lastName: "Rahm" },
@@ -1011,6 +1094,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Wegman, Joey",
+    tieBreaker: -12,
     // Alternate (use if a pick WDs): Jordan Spieth
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -1023,6 +1107,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Wegman, Nick",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Nicolai Hojgaard
     picks: [
       { firstName: "Xander", lastName: "Schauffele" },
@@ -1035,6 +1120,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Wegman, Stacy",
+    tieBreaker: -13,
     // Alternate (use if a pick WDs): Jacob Bridgeman
     picks: [
       { firstName: "Matt", lastName: "Fitzpatrick" },
@@ -1047,6 +1133,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Wegman, Tim",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Jacob Bridgeman
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -1059,6 +1146,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Weresh, Matt",
+    tieBreaker: -16,
     // Alternate (use if a pick WDs): Gary Woodland
     picks: [
       { firstName: "Cameron", lastName: "Young" },
@@ -1071,6 +1159,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Weresh, Melissa",
+    tieBreaker: -15,
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
       { firstName: "Scottie", lastName: "Scheffler" },
@@ -1083,6 +1172,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Wilharber, Brad",
+    tieBreaker: -15,
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
       { firstName: "Matt", lastName: "Fitzpatrick" },
@@ -1095,6 +1185,7 @@ const POOL_PARTICIPANTS = [
   },
   {
     name: "Wilharber, Randy",
+    tieBreaker: -14,
     // Alternate (use if a pick WDs): Min Woo Lee
     picks: [
       { firstName: "Cameron", lastName: "Young" },
