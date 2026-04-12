@@ -13,7 +13,7 @@ const API_BASE = "https://live-golf-data.p.rapidapi.com";
 const CACHE_KEY = "masters_pool_leaderboard_cache_v2";
 const SETTINGS_KEY = "masters_pool_settings";
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 min
-const ADMIN_PASSWORD = "masters2026"; // placeholder, user can change
+const ADMIN_PASSWORD = "thecabin"; // placeholder, user can change
 
 const ROUND_NAMES = { 1: "Thursday", 2: "Friday", 3: "Saturday", 4: "Sunday" };
 
@@ -85,9 +85,9 @@ function saveSettings() {
 
   // Clear password field for security
   pwdInput.value = "";
-  
+
   // Clear cache to force a fresh pull from the API
-  localStorage.removeItem(CACHE_KEY); 
+  localStorage.removeItem(CACHE_KEY);
   closeSettings();
   fetchLiveData(true);
 }
@@ -408,11 +408,11 @@ function calculateHistoricalRanks(playerMap, roundNum) {
       }
       scoreAtRound += p.rounds[r];
     }
-    return { 
+    return {
       key: normalizeNameKey(p.firstName, p.lastName),
       fullName: `${p.firstName} ${p.lastName}`,
-      scoreAtRound, 
-      playedAtRound 
+      scoreAtRound,
+      playedAtRound
     };
   }).filter(p => p.playedAtRound);
 
@@ -431,7 +431,7 @@ function calculateHistoricalRanks(playerMap, roundNum) {
 
   playersInField.forEach((p, i) => {
     const tied = (i > 0 && p.scoreAtRound === playersInField[i - 1].scoreAtRound) ||
-                 (i < playersInField.length - 1 && p.scoreAtRound === playersInField[i + 1].scoreAtRound);
+      (i < playersInField.length - 1 && p.scoreAtRound === playersInField[i + 1].scoreAtRound);
     ranks[p.key] = tied ? `T${p.baseRank}` : `${p.baseRank}`;
   });
 
@@ -471,7 +471,7 @@ function calculateStandings(playerMap, roundKey) {
   const roundNum = isTournament ? null : parseInt(roundKey, 10);
 
   // Pre-calculate field rankings for past rounds so "Pos" is historically accurate
-  const historicalRanks = (!isTournament && roundNum < currentRound) 
+  const historicalRanks = (!isTournament && roundNum < currentRound)
     ? calculateHistoricalRanks(playerMap, roundNum)
     : null;
 
@@ -510,7 +510,7 @@ function calculateStandings(playerMap, roundKey) {
           })
           .filter(p => p.score !== null)
           .sort((a, b) => a.score - b.score);
-        
+
         if (roundPicks.length > 0) {
           const b2 = roundPicks.slice(0, SCORING_CONFIG.dailyPicksScored);
           const rTotal = b2.reduce((sum, p) => sum + p.score, 0);
@@ -714,39 +714,39 @@ function renderTabPanel(playerMap, tabKey) {
         <div class="picks-list${isTourn ? " is-tourn" : ""}">
           <div class="picks-header">
             <span>Golfer</span><span>Pos</span>
-            ${isTourn 
-              ? `<span>R1</span><span>R2</span><span>R3</span><span>R4</span><span>Total</span>`
-              : `<span>Thru</span><span>R${roundNum}</span><span>Overall</span>`
-            }
+            ${isTourn
+        ? `<span>R1</span><span>R2</span><span>R3</span><span>R4</span><span>Total</span>`
+        : `<span>Thru</span><span>R${roundNum}</span><span>Overall</span>`
+      }
           </div>
           ${(() => {
-            // For tournament tab, pre-calculate which golfers are best 2 for EACH round
-            const bestInRound = { 1: [], 2: [], 3: [], 4: [] };
-            if (isTourn) {
-              for (let r = 1; r <= 4; r++) {
-                const dayScores = participant.picks
-                  .map((p, i) => {
-                    const isCutG = ["cut", "wd", "dq"].includes(p.status.toLowerCase());
-                    const s = (r > 2 && isCutG) ? null : p.rounds[r];
-                    return { i, s };
-                  })
-                  .filter(x => x.s !== null)
-                  .sort((a, b) => a.s - b.s);
-                bestInRound[r] = dayScores.slice(0, SCORING_CONFIG.dailyPicksScored).map(x => x.i);
-              }
-            }
+        // For tournament tab, pre-calculate which golfers are best 2 for EACH round
+        const bestInRound = { 1: [], 2: [], 3: [], 4: [] };
+        if (isTourn) {
+          for (let r = 1; r <= 4; r++) {
+            const dayScores = participant.picks
+              .map((p, i) => {
+                const isCutG = ["cut", "wd", "dq"].includes(p.status.toLowerCase());
+                const s = (r > 2 && isCutG) ? null : p.rounds[r];
+                return { i, s };
+              })
+              .filter(x => x.s !== null)
+              .sort((a, b) => a.s - b.s);
+            bestInRound[r] = dayScores.slice(0, SCORING_CONFIG.dailyPicksScored).map(x => x.i);
+          }
+        }
 
-            return participant.picks.map((pick, pIdx) => {
-      const isBest2 = !isTourn && participant.best2Picks?.some((b) => b.name === pick.name);
-      const isCut = pick.status === "cut" || pick.status === "wd" || pick.status === "dq";
-      const showCutIndicator = isCut && (roundNum > 2 || isTourn);
-      
-      if (isTourn) {
-        // For display in tournament tab: hide R3/R4 if cut
-        const r3v = (isCut) ? null : pick.rounds[3];
-        const r4v = (isCut) ? null : pick.rounds[4];
+        return participant.picks.map((pick, pIdx) => {
+          const isBest2 = !isTourn && participant.best2Picks?.some((b) => b.name === pick.name);
+          const isCut = pick.status === "cut" || pick.status === "wd" || pick.status === "dq";
+          const showCutIndicator = isCut && (roundNum > 2 || isTourn);
 
-        return `
+          if (isTourn) {
+            // For display in tournament tab: hide R3/R4 if cut
+            const r3v = (isCut) ? null : pick.rounds[3];
+            const r4v = (isCut) ? null : pick.rounds[4];
+
+            return `
               <div class="pick-row ${isCut ? "pick-cut" : ""}">
                 <span class="pick-name">
                   ${pick.name}
@@ -759,13 +759,13 @@ function renderTabPanel(playerMap, tabKey) {
                 <span class="pick-score ${scoreClass(r4v)} ${bestInRound[4].includes(pIdx) ? "best-round-score" : ""}">${fmtScore(r4v)}</span>
                 <span class="pick-total ${scoreClass(pick.total)}">${fmtScore(pick.total)}</span>
               </div>`;
-      }
+          }
 
-      const displayThru = (roundNum < currentRound) 
-        ? "F" 
-        : (roundNum === currentRound ? pick.thru : "--");
+          const displayThru = (roundNum < currentRound)
+            ? "F"
+            : (roundNum === currentRound ? pick.thru : "--");
 
-      return `
+          return `
               <div class="pick-row ${isBest2 ? "best-pick" : ""} ${!pick.found ? "not-found" : ""} ${showCutIndicator ? "pick-cut" : ""}">
                 <span class="pick-name">
                   ${pick.name}
@@ -777,8 +777,8 @@ function renderTabPanel(playerMap, tabKey) {
                 <span class="pick-today ${scoreClass(pick.rounds[roundNum])}">${fmtScore(pick.rounds[roundNum])}</span>
                 <span class="pick-total ${scoreClass(pick.total)}">${fmtScore(pick.total)}</span>
               </div>`;
-    }).join("");
-          })()}
+        }).join("");
+      })()}
         </div>
       </div>`;
   });
