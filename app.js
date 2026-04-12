@@ -13,6 +13,7 @@ const API_BASE = "https://live-golf-data.p.rapidapi.com";
 const CACHE_KEY = "masters_pool_leaderboard_cache_v2";
 const SETTINGS_KEY = "masters_pool_settings";
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 min
+const ADMIN_PASSWORD = "masters2026"; // placeholder, user can change
 
 const ROUND_NAMES = { 1: "Thursday", 2: "Friday", 3: "Saturday", 4: "Sunday" };
 
@@ -66,28 +67,34 @@ function toggleShowFeaturedOnly() {
 
 // ─── Settings ─────────────────────────────────────────────────────────────────
 function getSettings() {
-  const saved = localStorage.getItem(SETTINGS_KEY);
-  const base = { apiKey: "", tournId: DEFAULT_API_CONFIG.tournId, year: DEFAULT_API_CONFIG.year };
-  return saved ? { ...base, ...JSON.parse(saved) } : base;
+  return {
+    apiKey: DEFAULT_API_CONFIG.apiKey,
+    tournId: DEFAULT_API_CONFIG.tournId,
+    year: DEFAULT_API_CONFIG.year
+  };
 }
 
 function saveSettings() {
-  const settings = {
-    apiKey: document.getElementById("api-key-input").value.trim(),
-    tournId: document.getElementById("tourn-id-input").value.trim(),
-    year: document.getElementById("season-year-input").value.trim(),
-  };
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-  localStorage.removeItem(CACHE_KEY); // clear cache on settings change
+  const pwdInput = document.getElementById("admin-password-input");
+  const pwd = pwdInput.value.trim();
+
+  if (pwd !== ADMIN_PASSWORD) {
+    showToast("Incorrect admin password", "error");
+    return;
+  }
+
+  // Clear password field for security
+  pwdInput.value = "";
+  
+  // Clear cache to force a fresh pull from the API
+  localStorage.removeItem(CACHE_KEY); 
   closeSettings();
   fetchLiveData(true);
 }
 
 function openSettings() {
-  const s = getSettings();
-  document.getElementById("api-key-input").value = s.apiKey || "";
-  document.getElementById("tourn-id-input").value = s.tournId || DEFAULT_API_CONFIG.tournId;
-  document.getElementById("season-year-input").value = s.year || DEFAULT_API_CONFIG.year;
+  const pwdInput = document.getElementById("admin-password-input");
+  if (pwdInput) pwdInput.value = "";
   document.getElementById("modal-overlay").classList.add("open");
 }
 

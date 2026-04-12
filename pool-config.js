@@ -1129,6 +1129,7 @@ const COURSE_PAR = 72;
 // API CONFIG (can also be set in Settings modal at runtime)
 // ----------------------------------------------------
 const DEFAULT_API_CONFIG = {
+  apiKey: "821e102b31mshb682e22dc6bc00bp18bd8ejsn4e6ad8ae8c62",
   tournId: "014",     // Masters is typically 014 — verify via /schedule
   year: "2026",
   orgId: "1",         // 1 = PGA Tour
