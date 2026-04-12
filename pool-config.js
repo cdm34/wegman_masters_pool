@@ -1080,6 +1080,30 @@ const POOL_PARTICIPANTS = [
       { firstName: "Sam", lastName: "Burns" },
       { firstName: "Justin", lastName: "Thomas" },
     ],
+  },
+  {
+    name: "Wilharber, Brad",
+    // Alternate (use if a pick WDs): Min Woo Lee
+    picks: [
+      { firstName: "Matt", lastName: "Fitzpatrick" },
+      { firstName: "Bryson", lastName: "DeChambeau" },
+      { firstName: "Patrick", lastName: "Reed" },
+      { firstName: "Hideki", lastName: "Matsuyama" },
+      { firstName: "Ludvig", lastName: "Aberg" },
+      { firstName: "Jacob", lastName: "Bridgeman" },
+    ],
+  },
+  {
+    name: "Wilharber, Randy",
+    // Alternate (use if a pick WDs): Min Woo Lee
+    picks: [
+      { firstName: "Cameron", lastName: "Young" },
+      { firstName: "Bryson", lastName: "DeChambeau" },
+      { firstName: "Patrick", lastName: "Reed" },
+      { firstName: "Akshay", lastName: "Bhatia" },
+      { firstName: "Ludvig", lastName: "Aberg" },
+      { firstName: "Sungjae", lastName: "Im" },
+    ],
   }
 ];
 
